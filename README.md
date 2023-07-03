@@ -28,3 +28,25 @@ func main() {
 ```
 
 ### 002. 故障排除(Troubleshooting)
+
+### 003. 包与导入(Packages and Imports)
+
+在Go语言中使用 `package` 来标识当前包名称。
+
+```go
+package main
+```
+
+> 在Go语言中有一个名为`main`的特殊的包，用于告诉go程序从从哪里开始执行。
+
+使用`import` 关键字导入其他的包。
+
+```go
+import (
+    "fmt"
+    "net/http"
+)
+```
+
+- `fmt` - 标准库，用于终端的输入输出及格式化等常用函数。
+- `net/http` - 标准库，用来做任何与HTTP相关的事情。
