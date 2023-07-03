@@ -6,7 +6,7 @@ Learn to build real, production-grade web applications from scratch.
 
 ## 一、开始入门(Getting Started)
 
-### 001. 一个基本的Web应用程序
+### 001. 一个基本的Web应用程序(A Basic Web Application)
 
 ```go
 package main
@@ -50,3 +50,7 @@ import (
 
 - `fmt` - 标准库，用于终端的输入输出及格式化等常用函数。
 - `net/http` - 标准库，用来做任何与HTTP相关的事情。
+
+### 004. 编辑器与自动导入(Editors and Automatic Imports)
+
+VSCode 微软开发的免费且开源的编辑器，可通过安装插件的形式来方便Go语言开发可具有智能提示、自动导包、查看Go语言源码等众多功能。
