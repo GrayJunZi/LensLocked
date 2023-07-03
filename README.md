@@ -88,3 +88,17 @@ Web请求有几个主要组成部分：
 - POST - 提交一些资源。
 - PUT - 修改一些资源。
 - DELETE - 删除一些资源。
+
+### 008. 处理函数(Our Handler Function)
+
+#### http.ResponseWriter 
+
+它是一个接口，定义了一组方法，我们可以用来响应Web请求。我们可以用它来写响应体、Headers、Cookie、HTTP StatusCode 等。
+
+#### http.Request
+
+它是指向结构类型的指针，定义了传入请求的数据、请求正文、路径、请求方法、Headers等。
+
+#### 为什么一个接口而一个是结构呢？
+
+http.ResponseWriter是接口类型意味着可能传入不同的实现，例如使用`httptest`包可以易于测试代码。
