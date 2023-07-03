@@ -54,3 +54,18 @@ import (
 ### 004. 编辑器与自动导入(Editors and Automatic Imports)
 
 VSCode 微软开发的免费且开源的编辑器，可通过安装插件的形式来方便Go语言开发可具有智能提示、自动导包、查看Go语言源码等众多功能。
+
+### 005. 代码中的HelloWorld部分(The Hello, World Part of our Code)
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	fmt.Fprintln(os.Stdout, "Hello, World")
+}
+```
