@@ -112,3 +112,30 @@ http.ResponseWriter是接口类型意味着可能传入不同的实现，例如�
 #### http.ListenAndServe
 
 该方法用于监听并启动Web服务。
+
+### 010. Go模块(Go Module)
+
+#### 依赖管理
+
+确保其他开发人员可以使用类似的版本构建您的代码。
+
+版本：
+- 由三组数字组成，例如`v1.12.4`
+- 主版本(Major)、次版本(minor), 补丁(patch)。
+
+
+#### 在`GOPATH`路径之外运行
+
+所有Go代码都位于计算机上的一个目录中（GOPATH）。
+`Go Modules`允许我们在任何地方运行代码，只要我们初始化一个模块。
+
+#### 设置Go Module
+
+执行改命令将会创建`go.mod`文件。
+```bash
+go mod init github.com/grayjunzi/lenslocked
+```
+
+使用 `go get` 命令将会安装或更新依赖类库。
+
+使用 `go mod tidy` 命令清理依赖。
