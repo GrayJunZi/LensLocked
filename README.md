@@ -102,3 +102,13 @@ Web请求有几个主要组成部分：
 #### 为什么一个接口而一个是结构呢？
 
 http.ResponseWriter是接口类型意味着可能传入不同的实现，例如使用`httptest`包可以易于测试代码。
+
+### 009. 注册处理函数并启动Web服务(Registering our Handler Function and Starting the Web Server)
+
+#### http.HandleFunc 
+
+该方法用于注册处理函数。
+
+#### http.ListenAndServe
+
+该方法用于监听并启动Web服务。
