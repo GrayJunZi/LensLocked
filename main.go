@@ -1,14 +1,3 @@
-# Gomo
-
-Web Development with Go
----
-Learn to build real, production-grade web applications from scratch.
-
-## 一、开始入门(Getting Started)
-
-### 001. 一个基本的Web应用程序
-
-```go
 package main
 
 import (
@@ -25,4 +14,3 @@ func main() {
 	fmt.Println("Starting the server on :3000 ...")
 	http.ListenAndServe(":3000", nil)
 }
-```
