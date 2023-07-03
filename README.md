@@ -79,3 +79,12 @@ Web请求有几个主要组成部分：
 - StatusCode - 状态码。
 - RequestBody - 请求正文。
 - ResponseBody - 响应正文。
+
+### 007. HTTP方法(HTTP Methods)
+
+有以下几种HTTP请求方法：
+
+- GET - 获取一些资源。
+- POST - 提交一些资源。
+- PUT - 修改一些资源。
+- DELETE - 删除一些资源。
