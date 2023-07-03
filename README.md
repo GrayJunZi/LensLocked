@@ -69,3 +69,13 @@ func main() {
 	fmt.Fprintln(os.Stdout, "Hello, World")
 }
 ```
+
+### 006. Web请求(Web Request)
+
+Web请求有几个主要组成部分：
+
+- Url - 请求服务器地址。
+- Mehtod - 请求方式。
+- StatusCode - 状态码。
+- RequestBody - 请求正文。
+- ResponseBody - 响应正文。
