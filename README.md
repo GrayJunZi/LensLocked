@@ -174,3 +174,18 @@ func handleFunc(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 }
 ```
+
+### 013. 创建Contact页面(Creating a Contact Page)
+
+创建`contactHandler`函数。
+```go
+func contactHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	fmt.Fprint(w, "<h1>Contact Page</h1><p>To get in touch, email me at</p><a href='mailto:test@123.com'>test@123.com</a>")
+}
+```
+
+注册路由
+```go
+http.HandleFunc("/contact", contactHandler)
+```
