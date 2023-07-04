@@ -139,3 +139,29 @@ go mod init github.com/grayjunzi/lenslocked
 使用 `go get` 命令将会安装或更新依赖类库。
 
 使用 `go mod tidy` 命令清理依赖。
+
+## 二、添加新页面(Adding New Pages)
+
+### 011. 动态重载(Dynamic Reloading)
+
+安装 `modd`
+```bash
+go install github.com/cortesi/modd/cmd/modd@latest
+```
+
+创建 `modd.conf` 文件
+```conf
+**/*.go {
+    prep: go test @dirmods
+}
+
+**/*.go !**/*_test.go {
+    prep: go build -o ./ .
+    daemon +sigterm: ./lenslocked.exe
+}
+```
+
+执行命令
+```bash
+modd
+```
