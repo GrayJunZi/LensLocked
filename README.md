@@ -286,3 +286,8 @@ func main() {
 ### 020. 探索处理转换(Exploring Handler Conversions)
 
 `http.HandleFunc()` 底层本质也是调用的 `http.HandlerFunc()` 进行函数转换的，所以两种方式实现的效果是相同的。
+
+### 021. FAQ练习(FAQ Exercise)
+
+- 添加 `faqHandler` 处理函数。
+- 添加 `/faq` 路径判断并调用处理函数。
