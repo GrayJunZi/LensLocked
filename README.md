@@ -232,3 +232,18 @@ func pathHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, r.URL.RawPath)
 }
 ```
+
+### 017. 404页面(Not Found Page)
+
+设置 404 页面有两种方式
+
+第一种是设置响应头状态码为404，显示页面信息。
+```go
+w.WriteHeader(http.StatusNotFound)
+fmt.Fprint(w, "Page not found")
+```
+
+第二种是同时设置状态码和页面内容。
+```go
+http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+```
