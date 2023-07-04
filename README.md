@@ -273,3 +273,12 @@ func main() {
 	http.ListenAndServe(":3000", router)
 }
 ```
+
+### 019. http.HandlerFunc类型(The http.HandlerFunc Type)
+
+将函数转换为 `http.HandlerFunc`
+```go
+func main() {
+	http.ListenAndServe(":3000", http.HandlerFunc(pathHandler))
+}
+```
