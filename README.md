@@ -203,3 +203,19 @@ func main() {
 	http.ListenAndServe(":3000", nil)
 }
 ```
+
+### 015. 自定义路由(Custom Routing)
+
+判断请求路径跳转到不同处理函数中
+```go
+func pathHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.URL.Path {
+	case "/":
+		homeHandler(w, r)
+	case "/contact":
+		contactHandler(w, r)
+	default:
+		// TODO: 404 Not Found
+	}
+}
+```
