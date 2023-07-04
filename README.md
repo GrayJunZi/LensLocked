@@ -282,3 +282,7 @@ func main() {
 	http.ListenAndServe(":3000", http.HandlerFunc(pathHandler))
 }
 ```
+
+### 020. 探索处理转换(Exploring Handler Conversions)
+
+`http.HandleFunc()` 底层本质也是调用的 `http.HandlerFunc()` 进行函数转换的，所以两种方式实现的效果是相同的。
