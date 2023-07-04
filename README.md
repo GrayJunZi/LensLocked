@@ -165,3 +165,12 @@ go install github.com/cortesi/modd/cmd/modd@latest
 ```bash
 modd
 ```
+
+### 012. 设置Header值(Setting Header Values)
+
+调用 `w.Header().Set()` 设置响应头信息。
+```go
+func handleFunc(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+}
+```
