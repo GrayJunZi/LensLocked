@@ -247,3 +247,29 @@ fmt.Fprint(w, "Page not found")
 ```go
 http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 ```
+
+### 018. http.Handler类型(The http.Handler Type)
+
+定义Router并实现ServeHTTP
+```go
+type Router struct{}
+
+func (router Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	switch r.URL.Path {
+	case "/":
+		homeHandler(w, r)
+	case "/contact":
+		contactHandler(w, r)
+	default:
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+	}
+}
+```
+
+注册Router
+```go
+func main() {
+	var router Router
+	http.ListenAndServe(":3000", router)
+}
+```
