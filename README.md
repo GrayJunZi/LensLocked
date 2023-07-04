@@ -219,3 +219,16 @@ func pathHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 ```
+
+### 016. URL.Path与URL.RawPath对比(url.Path vs url.RawPath)
+
+- `URL.Path` - 无论路径中是否有编码后的字符都会进行解码展示。
+- `URL.RawPath` - 当路径中出现编码后的字符时才会有值，且会显示编码后的字符。
+
+
+```go
+func pathHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, r.URL.Path)
+	fmt.Fprintln(w, r.URL.RawPath)
+}
+```

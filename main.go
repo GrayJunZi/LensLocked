@@ -16,14 +16,18 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func pathHandler(w http.ResponseWriter, r *http.Request) {
-	switch r.URL.Path {
-	case "/":
-		homeHandler(w, r)
-	case "/contact":
-		contactHandler(w, r)
-	default:
-		// TODO: 404 Not Found
-	}
+	fmt.Fprintln(w, r.URL.Path)
+	fmt.Fprintln(w, r.URL.RawPath)
+	/*
+		switch r.URL.Path {
+		case "/":
+			homeHandler(w, r)
+		case "/contact":
+			contactHandler(w, r)
+		default:
+			// TODO: 404 Not Found
+		}
+	*/
 }
 
 func main() {
