@@ -189,3 +189,17 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 ```go
 http.HandleFunc("/contact", contactHandler)
 ```
+
+### 014. 检查http.Request类型(Examing the http.Request Type)
+
+在 `http.Request` 结构体中可以查看请求的URL路径。
+```go
+func pathHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, r.URL.Path)
+}
+
+func main() {
+	http.HandleFunc("/", pathHandler)
+	http.ListenAndServe(":3000", nil)
+}
+```
