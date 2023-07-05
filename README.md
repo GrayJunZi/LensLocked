@@ -366,3 +366,28 @@ go get -u github.com/go-chi/chi/v5
 ```bash
 go mod tidy
 ```
+
+### 025. 使用Chi(Using Chi)
+
+
+导入`go-chi`包
+```go
+import (
+	"github.com/go-chi/chi/v5"
+)
+```
+
+创建路由
+```go
+func main() {
+	r := chi.NewRouter()
+	r.Get("/", homeHandler)
+	r.Get("/contact", contactHandler)
+	r.Get("/faq", faqHandler)
+	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+	})
+	fmt.Println("Starting the server on :3000 ...")
+	http.ListenAndServe(":3000", r)
+}
+```
