@@ -304,3 +304,53 @@ GET /galleries/:id
 GET /galleries/:id/edit
 DELETE /galleries/:id
 ```
+
+### 023. 使用Git(Using git)
+
+下载并安装[Git](https://git-scm.com/downloads)
+
+创建分支
+
+```bash
+git checkout -b using-git
+```
+
+将所有文件的改动提交至暂存区
+
+```bash
+git add -A
+```
+
+提交暂存区的内容到本地仓库中
+
+```bash
+git commit -m "添加提交内容"
+```
+
+切换分支
+```bash
+git checkout casts
+```
+
+将 `using-git` 代码合并到 `casts` 分支中
+
+```bash
+git merge using-git
+```
+
+查看git状态
+```bash
+git status
+```
+
+显示暂存区的内容和被修改但未提交到暂存区文件的区别
+
+```bash
+git diff
+```
+
+推送本地仓库到远程仓库中
+
+```bash
+git push
+```
