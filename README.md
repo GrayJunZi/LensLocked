@@ -291,3 +291,16 @@ func main() {
 
 - 添加 `faqHandler` 处理函数。
 - 添加 `/faq` 路径判断并调用处理函数。
+
+## 三、路由和第三方库(Routers and 3rd Party Libraries)
+
+### 022. 定义我们的路由需求(Defining our Routing Needs)
+
+```
+GET /galleries
+POST /galleries
+
+GET /galleries/:id
+GET /galleries/:id/edit
+DELETE /galleries/:id
+```
