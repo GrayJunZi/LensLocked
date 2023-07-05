@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -28,11 +29,22 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
 	`)
 }
 
+func chiExerciseHandler(w http.ResponseWriter, r *http.Request) {
+	userID := chi.URLParam(r, "userID")
+
+	w.Write([]byte(fmt.Sprintf("userID: %v", userID)))
+}
+
 func main() {
 	r := chi.NewRouter()
 	r.Get("/", homeHandler)
 	r.Get("/contact", contactHandler)
 	r.Get("/faq", faqHandler)
+	r.Route("/chiExercise", func(r chi.Router) {
+		r.Use(middleware.Logger)
+		r.Get("/{userID}", chiExerciseHandler)
+	})
+
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 	})

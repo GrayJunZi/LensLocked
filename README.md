@@ -391,3 +391,13 @@ func main() {
 	http.ListenAndServe(":3000", r)
 }
 ```
+
+### 026. Chi练习(Chi Exercises)
+
+练习-添加URL参数
+
+阅读文档，看看您是否可以添加一个URL参数到您的路由之一。在处理程序中检索它，并将其输出到结果HTML。
+提示: 请参阅[这些文档](https://github.com/go-chi/chi#url-parameters) ，如果你需要一些指导。您不需要使用上下文，只需要使用URLParam方法
+
+练习-使用内置中间件进行实验
+Chi提供了不少内置中间件。一个是Logger中间件它将跟踪每个请求所花费的时间。尝试将其添加到您的应用程序中，然后仅添加到单个路由。
