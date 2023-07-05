@@ -354,3 +354,15 @@ git diff
 ```bash
 git push
 ```
+
+### 024. 安装Chi(Installing Chi)
+
+安装 `chi`
+```bash
+go get -u github.com/go-chi/chi/v5
+```
+
+清理未使用的依赖性
+```bash
+go mod tidy
+```
