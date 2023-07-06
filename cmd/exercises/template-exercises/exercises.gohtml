@@ -1,0 +1,30 @@
+<h1>你好，{{.Name}}</h1>
+<p>年龄: {{.Age}}</p>
+<p>身高: {{.Height}}</p>
+<p>城市: {{.Address.City}}</p>
+
+<p>成绩：</p>
+<table>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>科目</th>
+            <th>成绩</th>
+            <th>结果</th>
+        </tr>
+    </thead>
+    <tbody>
+    {{ range $index, $value := .Exam }}
+        <tr>
+            <td>{{$index}}</td>
+            <td>{{$value.Subject}}</td>
+            <td>{{$value.Score}}</td>
+            {{if gt $value.Score 60.0}}
+            <td>合格</td>
+            {{else}}
+            <td>不合格</td>
+            {{end}}
+        </tr>
+    {{end}}
+    </tbody>
+</table>

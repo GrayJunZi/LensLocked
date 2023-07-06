@@ -628,3 +628,5 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
 	executeTemplate(w, filepath.Join("templates", "faq.gohtml"))
 }
 ```
+
+### 036. 模板练习(Template Exercises)
