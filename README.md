@@ -458,3 +458,34 @@ function Example() {
 	);
 }
 ```
+
+### 029. 创建我们的第一个模板(Create Our First Template)
+
+创建 `gohtml` 模板文件，并标记数据位置。
+```html
+<H1>Hello, {{.Name}}</H1>
+```
+
+解析 `gohtml` 模板文件，并填充数据。
+```go
+type User struct {
+	Name string
+}
+
+func main() {
+
+	t, err := template.ParseFiles("hello.gohtml")
+	if err != nil {
+		panic(err)
+	}
+
+	user := User{
+		Name: "John Smith",
+	}
+
+	err = t.Execute(os.Stdout, user)
+	if err != nil {
+		panic(err)
+	}
+}
+```
