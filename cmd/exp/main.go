@@ -19,8 +19,8 @@ func main() {
 	}
 
 	user := User{
-		Name: "John Smith",
-		Bio:  `<script>alert("Haha, you haven been h4x0r3d!")</script>`,
+		Name: "张三",
+		Bio:  `<script>alert("这是跨站脚本信息!")</script>`,
 		Age:  123,
 	}
 

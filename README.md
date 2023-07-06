@@ -561,3 +561,25 @@ go模板会自动根据上下文内容进行相应编码，如下在js脚本中�
     console.log(user);
 </script>
 ```
+
+### 033. 主页模板(Home Page via Template)
+
+使用 `filepath` 拼接文件路径，并处理模板解析失败的情况。
+```go
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	tplPath := filepath.Join("templates", "home.gohtml")
+	tpl, err := template.ParseFiles(tplPath)
+	if err != nil {
+		log.Printf("解析模板: %v", err)
+		http.Error(w, "解析模板出错.", http.StatusInternalServerError)
+		return
+	}
+	err = tpl.Execute(w, nil)
+	if err != nil {
+		log.Printf("执行模板: %v", err)
+		http.Error(w, "解析模板出错.", http.StatusInternalServerError)
+		return
+	}
+}
+```
