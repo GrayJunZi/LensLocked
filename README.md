@@ -407,3 +407,54 @@ Chi提供了不少内置中间件。一个是Logger中间件它将跟踪每个�
 ### 027. 什么是模板(What are Templates?)
 
 模板是一种把获取某种内容的方式(例如html)并填充动态数据。
+
+### 028. 我们为什么要使用服务端渲染(Why Do We Use Server Side Rendering?)
+
+#### 服务端渲染
+
+服务端渲染是由服务端返回html内容。
+
+定义模板
+```html
+<body>
+	<a href="/account">{{.Email}}</a>
+	<h1>Hello, {{.Name}}!</h1>
+</body>
+```
+
+服务端返回
+```html
+<body>
+	<a href="/account">grayjunzi@email.com</a>
+	<h1>Hello, grayjunzi!</h1>
+</body>
+```
+
+#### 客户端渲染
+
+客户端渲染是由客户端拼接html内容。 
+
+服务端返回json数据。
+```json
+{
+	"name":"grayjunzi",
+	"email":"grayjunzi@email.com"
+}
+```
+
+前端使用json数据并生成html。
+```js
+import React fron 'react';
+
+function Example() {
+	// 从服务端获取数据
+	const {name, email} = fetchData();
+
+	return (
+		<body>
+			<h1>Hello, {name}!</h1>
+			<a href="/account">{email}</a>
+		</body>
+	);
+}
+```
