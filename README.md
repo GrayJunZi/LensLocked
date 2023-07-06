@@ -527,4 +527,37 @@ func main() {
 
 ### 031. 备选模板库(Alternative Template Libraries)
 
-- `plush` - 语法与 ruby on rails 中的模板相似。 
+- `plush` - 语法与 ruby on rails 中的模板相似。
+
+### 032. 上下文编码(Contextual Encoding)
+
+go模板会自动根据上下文内容进行相应编码，如下在js脚本中字符串内容会自动添加双引号，而整型则不会添加双引号。
+```html
+<H1>Hello, {{.Name}}</H1>
+<p>Bio: {{.Bio}}</p>
+
+<script>
+    const user = {
+        "name": {{.Name}},
+        "bio":  {{.Bio}},
+        "age":  {{.Age}},
+    }
+    console.log(user);
+</script>
+```
+
+生成的html内容如下
+```html
+<H1>Hello, John Smith</H1>
+<p>Bio: &lt;script&gt;alert(&#34;Haha, you haven been h4x0r3d!&#34;)&lt;/script&gt;</p>
+<p>Bio: 123</p>
+
+<script>
+    const user = {
+        "name": "John Smith",
+        "bio":  "\u003cscript\u003ealert(\"Haha, you haven been h4x0r3d!\")\u003c/script\u003e",
+        "age":   123 ,
+    }
+    console.log(user);
+</script>
+```
