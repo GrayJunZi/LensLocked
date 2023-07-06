@@ -489,3 +489,38 @@ func main() {
 	}
 }
 ```
+
+### 030. 跨站脚本攻击(Cross Site Scripting, XSS)
+
+跨站脚本攻击指将恶意代码注入到网站内容当中。
+
+导入 `html/template` 包时，模板会自动将html中的数据内容部分进行编码，防止跨站脚本攻击。
+```go
+import (
+	"html/template"
+	"os"
+)
+
+type User struct {
+	Name string
+	Bio  string
+}
+
+func main() {
+
+	t, err := template.ParseFiles("hello.gohtml")
+	if err != nil {
+		panic(err)
+	}
+
+	user := User{
+		Name: "John Smith",
+		Bio:  `<script>alert("Haha, you haven been h4x0r3d!")</script>`,
+	}
+
+	err = t.Execute(os.Stdout, user)
+	if err != nil {
+		panic(err)
+	}
+}
+```

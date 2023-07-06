@@ -1,12 +1,13 @@
 package main
 
 import (
+	"html/template"
 	"os"
-	"text/template"
 )
 
 type User struct {
 	Name string
+	Bio  string
 }
 
 func main() {
@@ -18,6 +19,7 @@ func main() {
 
 	user := User{
 		Name: "John Smith",
+		Bio:  `<script>alert("Haha, you haven been h4x0r3d!")</script>`,
 	}
 
 	err = t.Execute(os.Stdout, user)
