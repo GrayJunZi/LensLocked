@@ -524,3 +524,7 @@ func main() {
 	}
 }
 ```
+
+### 031. 备选模板库(Alternative Template Libraries)
+
+- `plush` - 语法与 ruby on rails 中的模板相似。 
