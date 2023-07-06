@@ -38,14 +38,7 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func faqHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, `<h1>FAQ Page</h1>
-	<ul>
-	<li><b>Is there a free version?</b>Yes! We offer a free trial for 30 days on any paid plans.</li>
-	<li><b>What are your support hours?</b>We have support staff answering emails 24/7, though response times may be abit slower on weekends.</li>
-	<li><b>How do I contact support?</b><a href="mailto:supportalenslocked.com">Email us</a></li>
-	</ul>
-	`)
+	executeTemplate(w, filepath.Join("templates", "faq.gohtml"))
 }
 
 func chiExerciseHandler(w http.ResponseWriter, r *http.Request) {

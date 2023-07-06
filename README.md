@@ -619,3 +619,12 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 	executeTemplate(w, tplPath)
 }
 ```
+
+### 035. 常见问题页面模板(FAQ Page via Template)
+
+可以将拼接路径的代码直接放到参数中执行。
+```go
+func faqHandler(w http.ResponseWriter, r *http.Request) {
+	executeTemplate(w, filepath.Join("templates", "faq.gohtml"))
+}
+```
