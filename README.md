@@ -583,3 +583,39 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 ```
+
+### 034. 联系页面模板(Contact Page via Template)
+
+编写代码时请考虑DRY原则(Don't Repeat Yourself)，编写相同的代码需要创建一个函数来执行该代码。
+
+将通用部分抽离出来放到一个单独的函数中。
+```go
+func executeTemplate(w http.ResponseWriter, tplPath string) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	tpl, err := template.ParseFiles(tplPath)
+	if err != nil {
+		log.Printf("解析模板: %v", err)
+		http.Error(w, "解析模板出错.", http.StatusInternalServerError)
+		return
+	}
+	err = tpl.Execute(w, nil)
+	if err != nil {
+		log.Printf("执行模板: %v", err)
+		http.Error(w, "解析模板出错.", http.StatusInternalServerError)
+		return
+	}
+}
+```
+
+调用及修改时将会变得很容易。
+```go
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	tplPath := filepath.Join("templates", "home.gohtml")
+	executeTemplate(w, tplPath)
+}
+
+func contactHandler(w http.ResponseWriter, r *http.Request) {
+	tplPath := filepath.Join("templates", "contact.gohtml")
+	executeTemplate(w, tplPath)
+}
+```

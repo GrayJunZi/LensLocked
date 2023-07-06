@@ -19,7 +19,7 @@ func main() {
 	}
 
 	user := User{
-		Name: "张三",
+		Name: "GrayJunZi",
 		Bio:  `<script>alert("这是跨站脚本信息!")</script>`,
 		Age:  123,
 	}
