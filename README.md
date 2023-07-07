@@ -735,7 +735,7 @@ API可以使用MVC，视图可以负责生成JSON。
 
 控制器中不应该有太多的逻辑，而是将数据传递到应用程序的不同部分，这些部分实际上处理执行需要完成的任何工作。
 
-### 039. 用MVC完成Web请求(Walking Through a Web Request with MVC)
+### 039. 用MVC完成一个Web请求(Walking Through a Web Request with MVC)
 
 1. 用户提交联系人信息更新请求。
 2. Router转发至`UserController`中。
@@ -743,3 +743,19 @@ API可以使用MVC，视图可以负责生成JSON。
 4. `UserStore`返回更新后的用户数据。
 5. `UserController`使用`ShowUser`视图生成HTML响应。
 6. `ShowUser`视图写入HTMl响应到 `http.ResponseWriter` 中。
+
+### 040. MVC练习(MVC Exercises)
+
+**1. MVC代表什么意思？**
+
+MVC是`Model-View-Controller`的缩写。
+
+**2. MVC各层职责是什么？**
+
+- `Model` - 负责数据、逻辑与规则，一般是与数据库交互。
+- `View` - 负责渲染页面，一般是渲染html。
+- `Controller` - 负责连接模型与视图，调用`models`处理业务逻辑并将返回数据交给`views`进行渲染。
+
+**3. 使用MVC的好处和坏处是什么？**
+
+**4. 阅读其他构建代码的方法**
