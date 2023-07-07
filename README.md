@@ -630,3 +630,76 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
 ```
 
 ### 036. 模板练习(Template Exercises)
+
+1. 模板中显示嵌套结构数据。
+2. 模板中遍历Slice数据。
+3. 模板中进行判断操作。
+
+## 五、代码组织方式(Code Organization)
+
+### 037. 代码组织方式(Code Organization)
+
+我们的代码变得相当冗长，长期将所有代码都放到 `main.go` 文件中对于后期维护及查找问题都会造成很大的困扰。
+
+一个好的代码结构应该是：
+- 更容易找到问题。
+- 更容易添加新功能。
+
+#### 扁平结构(Flat Structure)
+
+所有代码都在一个包中，用文件来分隔代码
+```
+myapp/
+	gallery_store.go
+	gallery_handler.go
+	gallery_templates.go
+	user_store.go
+	user_handler.go
+	user_templates.go
+	router.go
+	...
+```
+
+#### 关注点分离(Separation of concerns)
+
+根据职责来划分代码。
+
+Model-View-Controlle(MVC) 是采用这种策略的一种流行的结构。
+
+- `models` - 数据、逻辑、规则，通常是数据库。
+- `views` - 渲染一些东西，通常是html。
+- `controller` - 把它连接起来。接受用户输入，将其传递给模型以完成操作，然后将数据传递给视图以呈现事物，通常是处理程序。
+
+```
+myapp/
+	controllers/
+		gallery_handler.go
+		user_handler.go
+		...
+	views/
+		gallery_templates.go
+		user_templates.go
+		...
+	models/
+		gallery_store.go
+		userr_store.go
+		...
+```
+
+#### 依赖型结构(Dependency-based structure)
+
+基于依赖关系进行结构化，但是它们都使用一组通用的接口和类型。
+
+```
+myapp/
+	user.go
+	user_store.go
+
+	psql/
+		user_store.go
+```
+
+#### 其他结构
+
+- 领域驱动设计(Domain-driven Design, DDD)
+- 洋葱架构(Onion architecture)
