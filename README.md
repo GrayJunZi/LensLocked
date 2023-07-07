@@ -734,3 +734,12 @@ API可以使用MVC，视图可以负责生成JSON。
 它不会直接渲染HTML，也不会直接触及数据库，但是它会调用models和views包中的代码来做这些事情。
 
 控制器中不应该有太多的逻辑，而是将数据传递到应用程序的不同部分，这些部分实际上处理执行需要完成的任何工作。
+
+### 039. 用MVC完成Web请求(Walking Through a Web Request with MVC)
+
+1. 用户提交联系人信息更新请求。
+2. Router转发至`UserController`中。
+3. `UserController`使用`UserStore`更新用户联系人信息。
+4. `UserStore`返回更新后的用户数据。
+5. `UserController`使用`ShowUser`视图生成HTML响应。
+6. `ShowUser`视图写入HTMl响应到 `http.ResponseWriter` 中。
