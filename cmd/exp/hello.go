@@ -11,7 +11,7 @@ type User struct {
 	Age  int
 }
 
-func main() {
+func main_hello() {
 
 	t, err := template.ParseFiles("hello.gohtml")
 	if err != nil {

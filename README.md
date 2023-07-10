@@ -823,3 +823,20 @@ if err != nil {
 }
 r.Get("/", controllers.StaticHandler(tpl))
 ```
+
+### 044. Must函数(Must Functions)
+
+创建Must函数，在发生错误时自动进行panic。
+```go
+func Must(t Template, err error) Template {
+	if err != nil {
+		panic(err)
+	}
+	return t
+}
+```
+
+使用方式
+```go
+r.Get("/", controllers.StaticHandler(views.Must(views.Parse(filepath.Join("templates", "home.gohtml")))))
+```
