@@ -840,3 +840,16 @@ func Must(t Template, err error) Template {
 ```go
 r.Get("/", controllers.StaticHandler(views.Must(views.Parse(filepath.Join("templates", "home.gohtml")))))
 ```
+
+### 045. 练习(Exercises)
+
+1. 使用新模式向您的应用添加新的静态页面。
+2. 试验一下错误。
+
+```go
+errNotFound := errors.New("not found")
+
+errors.Is(err, errNotFound)
+
+errors.As(err, &target)
+```
