@@ -791,3 +791,15 @@ func Parse(filepath string) (Template, error) {
 	}, nil
 }
 ```
+
+### 042. fmt.Errorf
+
+创建一个新错误
+```go
+errors.New("connection failed")
+```
+
+格式化错误信息
+```go
+fmt.Errorf("failed: %w", err)
+```

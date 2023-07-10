@@ -1,31 +1,31 @@
 package main
 
 import (
-	"html/template"
-	"os"
+	"errors"
+	"fmt"
 )
 
-type User struct {
-	Name string
-	Bio  string
-	Age  int
+func main() {
+	err := CreateOrg()
+	fmt.Println(err)
 }
 
-func main() {
+func Connect() error {
+	return errors.New("connection failed")
+}
 
-	t, err := template.ParseFiles("hello.gohtml")
+func CreateUser() error {
+	err := Connect()
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("create user: %w", err)
 	}
+	return nil
+}
 
-	user := User{
-		Name: "GrayJunZi",
-		Bio:  `<script>alert("这是跨站脚本信息!")</script>`,
-		Age:  123,
-	}
-
-	err = t.Execute(os.Stdout, user)
+func CreateOrg() error {
+	err := CreateUser()
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("create org: %w", err)
 	}
+	return nil
 }
