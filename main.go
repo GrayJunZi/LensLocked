@@ -2,28 +2,23 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/grayjunzi/lenslocked/views"
 )
 
 func executeTemplate(w http.ResponseWriter, tplPath string) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	tpl, err := template.ParseFiles(tplPath)
+	viewTpl, err := views.Parse(tplPath)
 	if err != nil {
-		log.Printf("解析模板: %v", err)
-		http.Error(w, "解析模板出错.", http.StatusInternalServerError)
+		log.Printf("parsing template: %v", err)
+		http.Error(w, "There was an error parsing the template.", http.StatusInternalServerError)
 		return
 	}
-	err = tpl.Execute(w, nil)
-	if err != nil {
-		log.Printf("执行模板: %v", err)
-		http.Error(w, "解析模板出错.", http.StatusInternalServerError)
-		return
-	}
+	viewTpl.Execute(w, nil)
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -38,12 +33,6 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 
 func faqHandler(w http.ResponseWriter, r *http.Request) {
 	executeTemplate(w, filepath.Join("templates", "faq.gohtml"))
-}
-
-func chiExerciseHandler(w http.ResponseWriter, r *http.Request) {
-	userID := chi.URLParam(r, "userID")
-
-	w.Write([]byte(fmt.Sprintf("userID: %v", userID)))
 }
 
 func main() {

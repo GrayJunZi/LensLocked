@@ -759,3 +759,35 @@ MVC是`Model-View-Controller`的缩写。
 **3. 使用MVC的好处和坏处是什么？**
 
 **4. 阅读其他构建代码的方法**
+
+## 六、开始应用MVC(Starting to Apply MVC)
+
+### 041. 创建Views包(Creating the Views Package)
+
+将解析与渲染模板拆分成两个独立的函数。
+```go
+type Template struct {
+	htmlTpl *template.Template
+}
+
+func (t Template) Execute(w http.ResponseWriter, data interface{}) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	err := t.htmlTpl.Execute(w, data)
+	if err != nil {
+		log.Printf("执行模板: %v", err)
+		http.Error(w, "解析模板出错.", http.StatusInternalServerError)
+		return
+	}
+}
+
+func Parse(filepath string) (Template, error) {
+	tpl, err := template.ParseFiles(filepath)
+	if err != nil {
+		return Template{}, fmt.Errorf("parsing template: %w", err)
+	}
+
+	return Template{
+		htmlTpl: tpl,
+	}, nil
+}
+```
