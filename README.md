@@ -803,3 +803,23 @@ errors.New("connection failed")
 ```go
 fmt.Errorf("failed: %w", err)
 ```
+
+### 043. 启动时验证模板(Validating Template at Startup)
+
+创建模板处理函数
+```go
+func StaticHandler(tpl views.Template) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		tpl.Execute(w, nil)
+	}
+}
+```
+
+为每个路由设置这个处理函数，将会在程序启动时自动验证模板是否存在问题。
+```go
+tpl, err := views.Parse(filepath.Join("templates", "home.gohtml"))
+if err != nil {
+	panic(err)
+}
+r.Get("/", controllers.StaticHandler(tpl))
+```
