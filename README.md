@@ -886,3 +886,21 @@ func ParseFS(fs fs.FS, pattern string) (Template, error) {
 ```go
 r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "home.gohtml"))))
 ```
+
+### 047. 可变参数(Variadic Parameters)
+
+使用 `...int` 接收可变参数，这个参数将是一个数组。
+```go
+func add(numbers ...int) int {
+	sum := 0
+	for _, number := range numbers {
+		sum += number
+	}
+	return sum
+}
+```
+
+调用`add`函数时，参数的数量是可变的。
+```go
+fmt.Println( add(1, 2, 3, 4) )
+```
