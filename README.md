@@ -1066,3 +1066,7 @@ r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "lay
 </html>
 {{end}}
 ```
+
+### 052. 实用性优先的CSS(Utility-first CSS)
+
+在模板页面中添加TailwindCSS样式。
