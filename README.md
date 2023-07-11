@@ -971,3 +971,73 @@ r.Get("/faq", controllers.FAQ(views.Must(views.ParseFS(templates.FS, "faq.gohtml
 <li><b>{{.Question}}</b>{{.Answer}}</li>
 {{end}}
 ```
+
+### 050. 可复用布局(Reusable Layouts)
+
+有两种方式，第一种是定义布局模板。
+```html
+{{define "header"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lenslocked</title>
+</head>
+
+<body>
+
+{{end}}
+
+{{define "footer"}}
+
+</body>
+
+</html>
+{{end}}
+```
+
+然后在页面中引用局部模板。
+```html
+{{template "header"}}
+
+<h1>欢迎来到我的站点!</h1>
+
+{{template "footer"}}
+```
+
+最后将模板加入到路由中。
+```go
+r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "home.gohtml", "layout-parts.gohtml"))))
+```
+
+第二种方式是在布局模板也中指定加载的模板。
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lenslocked</title>
+</head>
+
+<body>
+    {{template "page" .}}
+</body>
+
+</html>
+```
+
+然后在页面中定义模板。
+```html
+{{define "page"}}
+<h1>欢迎来到我的站点!</h1>
+{{end}}
+```
+
+最后将模板加入到路由中，注意顺序，要先指定布局模板，再指定具体页面的模板。
+```go
+r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "layout-parts.gohtml", "home.gohtml"))))
+```
