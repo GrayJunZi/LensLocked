@@ -1070,3 +1070,23 @@ r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "lay
 ### 052. 实用性优先的CSS(Utility-first CSS)
 
 在模板页面中添加TailwindCSS样式。
+
+### 053. 添加导航栏(Adding a Navigation Bar)
+
+添加导航栏样式
+```html
+<header class="bg-gradient-to-r from-blue-800 to-indigo-800 text-white">
+	<nav class="px-8 py-6 flex items-center">
+		<div class="text-4xl pr-8 font-serif">Lenslocked</div>
+		<div class="flex-grow">
+			<a class="text-lg font-semibold hover:text-blue-100 pr-8" href="/">Home</a>
+			<a class="text-lg font-semibold hover:text-blue-100 pr-8" href="/contact">Contact</a>
+			<a class="text-lg font-semibold hover:text-blue-100 pr-8" href="/faq">FAQ</a>
+		</div>
+		<div>
+			<a class="pr-4" href="#">Links</a>
+			<a class="px-4 py-2 bg-blue-700 hover:bg-blue-600 rounded" href="#">Sign in / Sign up</a>
+		</div>
+	</nav>
+</header>
+```
