@@ -904,3 +904,22 @@ func add(numbers ...int) int {
 ```go
 fmt.Println( add(1, 2, 3, 4) )
 ```
+
+## 048. 命名模板(Named Templates)
+
+命名模板就像组件，可以多次重用它们，可以把多种东西放到页面上，只需要写一次HTML。
+
+定义命名模板
+```html
+{{define "lorem"}}
+<p>
+	Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam quae ea nobis reiciendis ratione eligendi quis
+    perferendis dignissimos consequatur, in sapiente? Omnis adipisci, soluta tempora aliquam eos earum et magnam.
+</p>
+{{end}}
+```
+
+使用命名模板
+```html
+{{template "lorem"}}
+```
