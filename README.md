@@ -905,7 +905,7 @@ func add(numbers ...int) int {
 fmt.Println( add(1, 2, 3, 4) )
 ```
 
-## 048. 命名模板(Named Templates)
+### 048. 命名模板(Named Templates)
 
 命名模板就像组件，可以多次重用它们，可以把多种东西放到页面上，只需要写一次HTML。
 
@@ -922,4 +922,52 @@ fmt.Println( add(1, 2, 3, 4) )
 使用命名模板
 ```html
 {{template "lorem"}}
+```
+
+### 049. 动态FAQ页面(Dynamic FAQ Page)
+
+添加`FAQ`处理函数，并将数据传入模板中。
+```go
+func FAQ(tpl views.Template) http.HandlerFunc {
+	questions := []struct {
+		Question string
+		Answer   string
+	}{
+		{
+			Question: "Is there a free version?",
+			Answer:   "Yes! We offer a free trial for 30 days on any paid plans.",
+		},
+		{
+			Question: "What are your support hours?",
+			Answer:   "We have support staff answering emails 24/7, though response times may be abit slower on weekends.",
+		},
+		{
+			Question: "How do I contact support?",
+			Answer:   `<a href="mailto:supportalenslocked.com">Email us</a>`,
+		},
+	}
+
+	return func(w http.ResponseWriter, r *http.Request) {
+		tpl.Execute(w, questions)
+	}
+}
+```
+
+在路由上应用`FAQ`处理函数。
+```go
+r.Get("/faq", controllers.FAQ(views.Must(views.ParseFS(templates.FS, "faq.gohtml"))))
+```
+
+定义模板并遍历数据
+```html
+<h1>FAQ Page</h1>
+<ul>
+    {{range .}}
+        {{template "qa" .}}
+    {{end}}
+</ul>
+
+{{define "qa"}}
+<li><b>{{.Question}}</b>{{.Answer}}</li>
+{{end}}
 ```
