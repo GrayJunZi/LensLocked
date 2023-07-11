@@ -853,3 +853,36 @@ errors.Is(err, errNotFound)
 
 errors.As(err, &target)
 ```
+
+## 七、提高我们的视图(Enhancing our Views)
+
+### 046. 嵌入模板文件(Embedding Templates Files)
+
+创建`fs.go`文件，通过 `//go:embed` 指令将静态资源文件打包至编译后的文件中。
+```go
+package templates
+
+import "embed"
+
+//go:embed *
+var FS embed.FS
+```
+
+添加 `ParseFS` 函数，通过文件系统解析模板。
+```go
+func ParseFS(fs fs.FS, pattern string) (Template, error) {
+	tpl, err := template.ParseFS(fs, pattern)
+	if err != nil {
+		return Template{}, fmt.Errorf("parsing template: %w", err)
+	}
+
+	return Template{
+		htmlTpl: tpl,
+	}, nil
+}
+```
+
+使用 `ParseFS` 加载模板。
+```go
+r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "home.gohtml"))))
+```
