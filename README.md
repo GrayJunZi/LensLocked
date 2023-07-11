@@ -1041,3 +1041,28 @@ r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "hom
 ```go
 r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "layout-parts.gohtml", "home.gohtml"))))
 ```
+
+### 051. Tailwind CSS
+
+添加模板页，以CDN的方式引入`TailwindCSS`。
+```html
+{{define "header"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+{{end}}
+
+{{define "footer"}}
+</body>
+
+</html>
+{{end}}
+```
