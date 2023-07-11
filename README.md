@@ -1090,3 +1090,9 @@ r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "lay
 	</nav>
 </header>
 ```
+
+### 054. 练习(Exercises)
+
+1. 使用TailwindCSS，并尝试设计一些东西。
+2. 创建某种类型的 `<footer>` 模板，并尝试确保它包含在所有视图中。
+3. 请查看嵌入式软件包，看看您还可以用它做些什么。
