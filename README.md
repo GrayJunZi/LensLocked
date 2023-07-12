@@ -1265,3 +1265,8 @@ func (u Users) New(w http.ResponseWriter, r *http.Request) {
 		class="w-full px-3 py-2 border borderr-gray-300 placeholder-gray-500 text-gray-800 rounded" />
 </div>
 ```
+
+### 062. 练习(Exercises)
+
+1. 在表单中添加新的数据，并向服务器提交数据，尝试在服务器上解析它们。
+2. 调整路径，例如，将注册页面改为 `/users/new`，将注册提交移动到 `/signup`，查看需要更改哪些内容才能实现此操作。
