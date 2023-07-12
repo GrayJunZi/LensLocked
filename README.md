@@ -1207,3 +1207,16 @@ usersC.Templates.New = views.Must(views.ParseFS(
 
 r.Get("/signup", usersC.New)
 ```
+
+### 059. 使用接口解耦(Decouple with Interfaces)
+
+抽象模板接口
+```go
+package controllers
+
+import "net/http"
+
+type Template interface {
+	Execute(w http.ResponseWriter, data interface{})
+}
+```
