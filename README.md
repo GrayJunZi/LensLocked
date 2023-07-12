@@ -1096,3 +1096,28 @@ r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "lay
 1. 使用TailwindCSS，并尝试设计一些东西。
 2. 创建某种类型的 `<footer>` 模板，并尝试确保它包含在所有视图中。
 3. 请查看嵌入式软件包，看看您还可以用它做些什么。
+
+## 八、注册页面(The Signup Page)
+
+### 055. 创建注册页面(Creating the Signup Page)
+
+添加 `signup.gohtml` 注册模板页。
+```html
+{{template "header" .}}
+
+<form action="/users" method="post">
+    <div>
+        <label for="email">邮箱</label>
+        <input name="email" id="email" type="email" placeholder="邮箱地址" required autocomplete="email" />
+    </div>
+    <div>
+        <label for="password">密码</label>
+        <input name="password" id="password" type="password" placeholder="密码" required />
+    </div>
+    <div>
+        <button>注册</button>
+    </div>
+</form>
+
+{{template "footer" .}}
+```
