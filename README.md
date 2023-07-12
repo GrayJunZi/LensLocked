@@ -1220,3 +1220,19 @@ type Template interface {
 	Execute(w http.ResponseWriter, data interface{})
 }
 ```
+
+### 060. 解析注册表单(Parsing the Signup Form)
+
+调用 `ParseForm()` 函数解析表单，使用 `PostForm.Get()` 或 `FormValue()` 获取表单值。
+```go
+func (u Users) Create(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fmt.Fprintf(w, "Email: %s, Password: %s\n", r.PostForm.Get("email"), r.PostForm.Get("password"))
+	fmt.Fprintf(w, "Email: %s, Password: %s\n", r.FormValue("email"), r.FormValue("password"))
+}
+```
