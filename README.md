@@ -1154,3 +1154,22 @@ r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(templates.FS, "lay
     </div>
 </div>
 ```
+
+### 057. REST简介(Intro to REST)
+
+REST 是 `REpresentational State Transfer` 的缩写，它是一种架构风格(architectural style)。
+
+- 无状态(Stateless)，我们不需要记住客户端在做什么。一个请求有足够的信息供我们响应。
+- 客户端和服务器交互，REST原则可以帮助我们设计一个更直观的客户端使用的服务器。
+
+请求包括：
+- 请求方法(HTTP Method) 也称作请求动词(HTTP verb)。
+- 请求路径。
+
+REST端点(endpoints)与资源有关
+| **HTTP Method** | **路径** | **作用** |
+| `GET` | /galleries | 读取相册列表 |
+| `GET` | /galleries/:id | 读取单个相册 |
+| `POST` | /galleries | 创建一个相册 |
+| `PUT` | /galleries/:id | 修改一个相册 |
+| `DELETE` | /galleries/:id | 删除一个相册 |
