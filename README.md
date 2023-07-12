@@ -1173,3 +1173,37 @@ REST端点(endpoints)与资源有关
 | `POST` | /galleries | 创建一个相册 |
 | `PUT` | /galleries/:id | 修改一个相册 |
 | `DELETE` | /galleries/:id | 删除一个相册 |
+
+### 058. 用户控制器(Users Controller)
+
+创建Users控制器
+```go
+package controllers
+
+import (
+	"net/http"
+
+	"github.com/grayjunzi/lenslocked/views"
+)
+
+type Users struct {
+	Templates struct {
+		New views.Template
+	}
+}
+
+func (u Users) New(w http.ResponseWriter, r *http.Request) {
+	u.Templates.New.Execute(w, nil)
+}
+```
+
+初始化Users控制器并指定注册页面模板。
+```go
+usersC := controllers.Users{}
+usersC.Templates.New = views.Must(views.ParseFS(
+	templates.FS,
+	"signup.gohtml", "tailwind.gohtml",
+))
+
+r.Get("/signup", usersC.New)
+```
