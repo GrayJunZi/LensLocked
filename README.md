@@ -1236,3 +1236,32 @@ func (u Users) Create(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Email: %s, Password: %s\n", r.FormValue("email"), r.FormValue("password"))
 }
 ```
+
+### 061. URL查询参数(URL Query Params)
+
+可通过 `FormValue()` 函数获取 `query string` 中的值。
+```go
+func (u Users) New(w http.ResponseWriter, r *http.Request) {
+	var data struct {
+		Email string
+	}
+	data.Email = r.FormValue("email")
+	u.Templates.New.Execute(w, data)
+}
+```
+
+模板判断值是否存在并自动聚焦。
+```html
+<div class="py-2">
+	<label for="email" class="text-sm font-semibold text-gray-800">邮箱</label>
+	<input name="email" id="email" type="email" placeholder="邮箱地址" required autocomplete="email"
+		value="{{.Email}}" {{if not .Email}}autofocus{{end}}
+		class="w-full px-3 py-2 border borderr-gray-300 placeholder-gray-500 text-gray-800 rounded" />
+</div>
+<div class="py-2">
+	<label for="password" class="text-sm font-semibold text-gray-800">密码</label>
+	<input name="password" id="password" type="password" placeholder="密码" required {{if
+		.Email}}autofocus{{end}}
+		class="w-full px-3 py-2 border borderr-gray-300 placeholder-gray-500 text-gray-800 rounded" />
+</div>
+```
