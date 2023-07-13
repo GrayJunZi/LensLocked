@@ -1256,13 +1256,13 @@ func (u Users) New(w http.ResponseWriter, r *http.Request) {
 	<label for="email" class="text-sm font-semibold text-gray-800">邮箱</label>
 	<input name="email" id="email" type="email" placeholder="邮箱地址" required autocomplete="email"
 		value="{{.Email}}" {{if not .Email}}autofocus{{end}}
-		class="w-full px-3 py-2 border borderr-gray-300 placeholder-gray-500 text-gray-800 rounded" />
+		class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-800 rounded" />
 </div>
 <div class="py-2">
 	<label for="password" class="text-sm font-semibold text-gray-800">密码</label>
 	<input name="password" id="password" type="password" placeholder="密码" required {{if
 		.Email}}autofocus{{end}}
-		class="w-full px-3 py-2 border borderr-gray-300 placeholder-gray-500 text-gray-800 rounded" />
+		class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-800 rounded" />
 </div>
 ```
 
@@ -1270,3 +1270,30 @@ func (u Users) New(w http.ResponseWriter, r *http.Request) {
 
 1. 在表单中添加新的数据，并向服务器提交数据，尝试在服务器上解析它们。
 2. 调整路径，例如，将注册页面改为 `/users/new`，将注册提交移动到 `/signup`，查看需要更改哪些内容才能实现此操作。
+
+## 九、数据库与PostgreSQL
+
+### 063. 数据库简介(Intro to Databases)
+
+我们需要一些存储数据的方法来使应用程序成为一个真正的Web应用程序，而不单单只是静态页面。
+
+数据库的类型很多，都是针对不同的情况而设计的:
+- 关系数据库(Relational Databases) - `PostgreSQL` 和 `MySQL`
+- 文档存储库(Document Stores) - `MongoDB`
+- 图形数据库(Graph Databases) - `Dgraph` 和 `Neo4i`
+- 键值对存储(key/value stores) - `BoltDB` 和 `etcd`
+
+每个DB都有优点(pros)和缺点(cons)。如果一个数据库在一件事上做得很好，那么它就是在某个地方做了一个权衡。因此，大多数大公司使用各种数据库来完成不同的任务。
+
+我们将使用PostgreSQL，它是:
+- 非常受欢迎。
+- 免费和开放源代码。
+- 规模(Scales)非常好。
+- 不太复杂。
+- 在`Go`中得到了很好的支持。
+- 防止竞争条件的事务。
+
+关系型数据库被广泛使用。
+- 通过Docker运行Postgres
+- 与Postgres交互
+- 了解Postgres的工作原理
