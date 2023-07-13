@@ -1361,4 +1361,16 @@ docker-compose down
 docker exec -it lenslocked-db-1 /usr/bin/psql -U root -d lenslocked
 ```
 
-> `-i` 为 `--interactive`，`-t` 为 `--tty`
+> `-i` 全称为 `--interactive` 用于以交互模式运行容器，`-t` 全称为 `--tty` 会为容器重新分配一个伪输入终端。
+
+### 066. 创建SQL表(Creating SQL Tables)
+
+执行以下sql语句创建`users`表。
+```sql
+CREATE TABLE users (
+	id SERIAL,
+	age INT,
+	name TEXT,
+	email TEXT
+);
+```
