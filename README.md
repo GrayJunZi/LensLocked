@@ -1340,6 +1340,8 @@ services:
 docker-compose up
 ```
 
+> 执行该命令时需与 `docker-compose.yml` 在同一目录下。
+
 访问 `http://localhost:3333` 打开 `adminer` 数据库管理界面。
 
 在命令中增加 `-d` 可在后台运行容器。
@@ -1351,3 +1353,12 @@ docker-compose up -d
 ```bash
 docker-compose down
 ```
+
+### 065. 连接到Postgres(Connecting to Postgres)
+
+执行以下命令进入容器，其中 `-it` 指定要进入的容器，`-U` 指定数据库的用户名，`-d` 指定数据库。
+```bash
+docker exec -it lenslocked-db-1 /usr/bin/psql -U root -d lenslocked
+```
+
+> `-i` 为 `--interactive`，`-t` 为 `--tty`
