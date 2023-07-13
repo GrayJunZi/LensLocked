@@ -1297,3 +1297,57 @@ func (u Users) New(w http.ResponseWriter, r *http.Request) {
 - 通过Docker运行Postgres
 - 与Postgres交互
 - 了解Postgres的工作原理
+
+### 064. 安装Postgres(Installing Postgres)
+
+查看docker版本
+```bash
+docker version
+```
+
+查看docker-compose版本
+```bash
+docker-compose version
+```
+
+定义`docker-compose.yml`文件，运行`postgres`与`adminer`两个服务。
+```yml
+version: '3.9'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=lenslocked
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    environment:
+      - ADMINER_DESIGN=dracula
+    ports:
+      - 3333:8080
+```
+
+执行以下命令，将会根据 `docker-compose.yml` 文件中的配置，拉取并启动两个镜像。
+```bash
+docker-compose up
+```
+
+访问 `http://localhost:3333` 打开 `adminer` 数据库管理界面。
+
+在命令中增加 `-d` 可在后台运行容器。
+```bash
+docker-compose up -d
+```
+
+使用以下命令移除 `docker-compose.yml` 文件中配置的所有镜像。
+```bash
+docker-compose down
+```
