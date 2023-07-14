@@ -1374,3 +1374,17 @@ CREATE TABLE users (
 	email TEXT
 );
 ```
+
+### 067. Postgres数据类型(Postgres Data Types)
+
+`Types`提供了一种方法来定义要在列中存储的数据类型。
+
+查看 [PostgreSQL DataType](https://postgresql.org/docs/current/datatype.html)
+
+| 类型 | 描述 |
+| -- | -- |
+| `int` | 这用于存储-2147483648和2147483647之间的整数。 |
+| `serial` | 这是用来存储1和2147483647之间的整数。`int` 和 `serial`最大的区别在于，如果你没有提供一个值，serial会自动设置一个值，新值总是加1。这对于id列很有用，在id列中，您希望每一行都有一个唯一的值，并允许数据库决定使用什么值。 |
+| `varchar` | 这类似于Go或其他编程语言中的字符串，只是我们必须告诉数据库我们存储的任何字符串的最大长度是多少。 |
+| `text` | 这是一个特定于PostgreSQL的类型。并且可能不是在所有形式的SQL中都可用，但它在底层与varchar基本相同，但是在声明字段时不必指定最大字符串长度。 |
+| `uuid` | 唯一Id |
