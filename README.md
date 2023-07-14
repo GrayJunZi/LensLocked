@@ -1483,3 +1483,37 @@ DELETE FROM users WHERE name = 'admin';
 **w3schools** - [https://w3schools.com](https://w3schools.com)
 
 **Khan Academy's SQL course** - [https://www.khanacademy.org/computing/computer-programming/sql](https://www.khanacademy.org/computing/computer-programming/sql)
+
+## 十、在Go中使用Postgres(Using Postgres with Go)
+
+### 076. 使用Go连接到Postgres(Connecting to Postgres with Go)
+
+安装 `pgx`
+```go
+go get github.com/jackc/pgx/v4
+```
+
+使用 `pgx` 连接Postgres数据库
+```go
+package main
+
+import (
+	"database/sql"
+	"fmt"
+
+	_ "github.com/jackc/pgx/v4/stdlib"
+)
+
+func main() {
+	db, err := sql.Open("pgx", "host=localhost port=5432 user=root password=root dbname=lenslocked sslmode=disable")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	if err = db.Ping(); err != nil {
+		panic(err)
+	}
+	fmt.Println("Connected!")
+}
+```

@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func main() {
+func main_error() {
 	err := CreateOrg()
 	fmt.Println(err)
 }
