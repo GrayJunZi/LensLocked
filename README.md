@@ -1417,3 +1417,20 @@ CREATE TABLE users (
 	email TEXT UNIQUE NOT NULL
 );
 ```
+
+### 070. 插入记录(Inserting Records)
+
+插入表数据
+```sql
+INSERT INTO users VALUES(1, 25, 'grayjunzi', 'grayjunzi@email.com');
+```
+
+插入数据指定字段
+```sql
+INSERT INTO users (age, name, email) VALUES(30, 'admin', 'admin@email.com');
+```
+
+查询用户表
+```sql
+SELECT * FROM users;
+```
