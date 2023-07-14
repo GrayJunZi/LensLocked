@@ -1400,3 +1400,20 @@ CREATE TABLE users (
 | `UNIQUE` | 这确保了数据库中字段的每个记录值都被设置为唯一的。 |
 | `NOT NULL` | 这确保了数据库中的每条记录都有这个feed的值。当你不为一个字段提供值时，数据库通常会存储null，但这阻止了它的有效性。 |
 | `PRIMARY KEY` | 这个约束类似于UNIOUE和NOT NULL的组合，但它只能在每个表上使用一次，并且它会自动导致为该字段创建索引。这个索引是用来使查找这个字段的记录更快捷。 |
+
+### 069. 创建用户表(Creating a Users Table)
+
+如果`users`表存在则删除该表。
+```sql
+DROP TABLE IF EXISTS users;
+```
+
+创建`users`表
+```sql
+CREATE TABLE users (
+	id SERIAL PRIMARY KEY,
+	age INT,
+	name TEXT,
+	email TEXT UNIQUE NOT NULL
+);
+```
