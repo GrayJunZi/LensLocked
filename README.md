@@ -1517,3 +1517,14 @@ func main() {
 	fmt.Println("Connected!")
 }
 ```
+
+### 077. 导入的副作用(Imports with Side Effects)
+
+Go中导入语句如果没有使用将会自动删除，此时需要加入`_`防止误删。
+```go
+import (
+	_ "github.com/jackc/pgx/v4/stdlib"
+)
+```
+
+> 导入的作用是为了执行该包下的 `init()` 函数，用于设置一个驱动程序，然后调用SQL寄存器
