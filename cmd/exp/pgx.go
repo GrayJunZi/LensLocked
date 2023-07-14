@@ -7,8 +7,31 @@ import (
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
+type PostgresConfig struct {
+	Host     string
+	Port     string
+	User     string
+	Password string
+	Database string
+	SSLMode  string
+}
+
+func (config PostgresConfig) String() string {
+	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", config.Host, config.Port, config.User, config.Password, config.Database, config.SSLMode)
+}
+
 func main() {
-	db, err := sql.Open("pgx", "host=localhost port=5432 user=root password=root dbname=lenslocked sslmode=disable")
+
+	config := PostgresConfig{
+		Host:     "localhost",
+		Port:     "5432",
+		User:     "root",
+		Password: "root",
+		Database: "lenslocked",
+		SSLMode:  "disable",
+	}
+
+	db, err := sql.Open("pgx", config.String())
 	if err != nil {
 		panic(err)
 	}
