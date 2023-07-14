@@ -1379,7 +1379,7 @@ CREATE TABLE users (
 
 `Types`提供了一种方法来定义要在列中存储的数据类型。
 
-查看 [PostgreSQL DataType](https://postgresql.org/docs/current/datatype.html)
+[查看PostgreSQL中提供的数据类型](https://postgresql.org/docs/current/datatype.html)
 
 | 类型 | 描述 |
 | -- | -- |
@@ -1388,3 +1388,15 @@ CREATE TABLE users (
 | `varchar` | 这类似于Go或其他编程语言中的字符串，只是我们必须告诉数据库我们存储的任何字符串的最大长度是多少。 |
 | `text` | 这是一个特定于PostgreSQL的类型。并且可能不是在所有形式的SQL中都可用，但它在底层与varchar基本相同，但是在声明字段时不必指定最大字符串长度。 |
 | `uuid` | 唯一Id |
+
+### 068. Postgres约束(Postgres Constraints)
+
+约束是我们可以应用于表中字段的规则。例如，我们可能希望确保数据库中的每个用户都有唯一的`id`，因此可以使用UNIQUE约束。
+
+[查看PostgreSQL中提供的约束](https://postgresql.org/docs/current/static/ddl-constraints.html)
+
+| 约束 | 描述 |
+| -- | -- |
+| `UNIQUE` | 这确保了数据库中字段的每个记录值都被设置为唯一的。 |
+| `NOT NULL` | 这确保了数据库中的每条记录都有这个feed的值。当你不为一个字段提供值时，数据库通常会存储null，但这阻止了它的有效性。 |
+| `PRIMARY KEY` | 这个约束类似于UNIOUE和NOT NULL的组合，但它只能在每个表上使用一次，并且它会自动导致为该字段创建索引。这个索引是用来使查找这个字段的记录更快捷。 |
