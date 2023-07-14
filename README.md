@@ -1465,3 +1465,9 @@ SELECT * FROM users WHERE age > 25 OR name = 'grayjunzi' LIMIT 1;
 ```sql
 UPDATE users SET age = 26 WHERE name = 'grayjunzi';
 ```
+
+### 074. 删除数据(Deleting Records)
+
+```sql
+DELETE FROM users WHERE name = 'admin';
+```
