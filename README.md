@@ -1459,3 +1459,9 @@ SELECT * FROM users WHERE age > 20;
 ```sql
 SELECT * FROM users WHERE age > 25 OR name = 'grayjunzi' LIMIT 1;
 ```
+
+### 073. 更新数据(Updating Records)
+
+```sql
+UPDATE users SET age = 26 WHERE name = 'grayjunzi';
+```
