@@ -1446,3 +1446,16 @@ SELECT * FROM users;
 ```sql
 SELECT id, email FROM users;
 ```
+
+### 072. 过滤数据(Filtering Queries)
+
+根据条件筛选数据
+```sql
+SELECT * FROM users WHERE email='admin@email.com';
+SELECT * FROM users WHERE age > 20;
+```
+
+根据`age`和`name`条件筛选并返回1条数据。
+```sql
+SELECT * FROM users WHERE age > 25 OR name = 'grayjunzi' LIMIT 1;
+```
