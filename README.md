@@ -1434,3 +1434,15 @@ INSERT INTO users (age, name, email) VALUES(30, 'admin', 'admin@email.com');
 ```sql
 SELECT * FROM users;
 ```
+
+### 071. 查询数据(Querying Records)
+
+查询表中所有数据
+```sql
+SELECT * FROM users;
+```
+
+查询表中所有数据并指定返回列
+```sql
+SELECT id, email FROM users;
+```
