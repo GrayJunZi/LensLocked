@@ -1471,3 +1471,15 @@ UPDATE users SET age = 26 WHERE name = 'grayjunzi';
 ```sql
 DELETE FROM users WHERE name = 'admin';
 ```
+
+### 075. 其他SQL资源(Additional SQL Resources)
+
+**Select Star SQL** - [https://selectstarsql.com](https://selectstarsql.com)
+
+**SQL Murder Mystery** - [https://mystery.knightlab.com](https://mystery.knightlab.com)
+
+**Codecademy's Learn SQL course** - [https://www.codecademy.com/lrn/learn-sql](https://www.codecademy.com/lrn/learn-sql)
+
+**w3schools** - [https://w3schools.com](https://w3schools.com)
+
+**Khan Academy's SQL course** - [https://www.khanacademy.org/computing/computer-programming/sql](https://www.khanacademy.org/computing/computer-programming/sql)
