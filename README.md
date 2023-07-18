@@ -1589,3 +1589,20 @@ _, err = db.Exec(`
 	);
 `)
 ```
+
+### 080. 使用Go插入记录(Inserting Records with Go)
+
+调用 `Exec` 函数执行SQL语句插入数据。
+```go
+name := "admin"
+email := "admin@email.com"
+_, err = db.Exec(`
+	INSERT INTO users (name, email)
+	VALUES ($1, $2);
+`, name, email)
+
+if err != nil {
+	panic(err)
+}
+fmt.Println("User created.")
+```

@@ -31,6 +31,7 @@ func main() {
 		SSLMode:  "disable",
 	}
 
+	// 连接数据库
 	db, err := sql.Open("pgx", config.String())
 	if err != nil {
 		panic(err)
@@ -42,6 +43,7 @@ func main() {
 	}
 	fmt.Println("Connected!")
 
+	// 创建表
 	_, err = db.Exec(`
 		CREATE TABLE IF NOT EXISTS users (
 			id serial PRIMARY KEY,
@@ -60,6 +62,18 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 	fmt.Println("Tables created.")
+
+	// 插入数据
+	name := "admin"
+	email := "admin@email.com"
+	_, err = db.Exec(`
+		INSERT INTO users (name, email)
+		VALUES ($1, $2);
+	`, name, email)
+
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("User created.")
 }
