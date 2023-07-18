@@ -1619,3 +1619,18 @@ query := fmt.Sprintf(`
 	VALUES ('%s', '%s')
 `, name, email)
 ```
+
+### 082. 获取新记录的ID(Acquire a new Record's ID)
+
+调用 `QueryRow` 函数执行插入数据并返回id。
+```go
+row := db.QueryRow(`
+	INSERT INTO users (name, email)
+	VALUES ($1, $2) RETURNING id;
+`, "test", "test@test.com")
+var id int
+err = row.Scan(&id)
+if err != nil {
+	panic(err)
+}
+```

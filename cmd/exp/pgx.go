@@ -83,5 +83,17 @@ func main() {
 		INSERT INTO users (name, email)
 		VALUES ('%s', '%s')
 	`, name, email)
-	fmt.Printf("执行: %s", query)
+	fmt.Printf("执行: %s\n", query)
+
+	// 插入数据并返回ID
+	row := db.QueryRow(`
+		INSERT INTO users (name, email)
+		VALUES ($1, $2) RETURNING id;
+	`, "test", "test@test.com")
+	var id int
+	err = row.Scan(&id)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("User inserted. id= %d\n", id)
 }
