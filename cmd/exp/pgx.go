@@ -76,4 +76,12 @@ func main() {
 		panic(err)
 	}
 	fmt.Println("User created.")
+
+	// SQL 注入
+	name = "',''); DROP TABLE users; --"
+	query := fmt.Sprintf(`
+		INSERT INTO users (name, email)
+		VALUES ('%s', '%s')
+	`, name, email)
+	fmt.Printf("执行: %s", query)
 }

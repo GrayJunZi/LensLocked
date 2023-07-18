@@ -1606,3 +1606,16 @@ if err != nil {
 }
 fmt.Println("User created.")
 ```
+
+### 081. SQL注入(SQL Injection)
+
+SQL注入是一种安全漏洞，它允许攻击者在数据库执行一些任意的SQL。
+
+如下代码将会导致SQL注入。
+```go
+name = "',''); DROP TABLE users; --"
+query := fmt.Sprintf(`
+	INSERT INTO users (name, email)
+	VALUES ('%s', '%s')
+`, name, email)
+```
