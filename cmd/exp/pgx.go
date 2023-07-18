@@ -96,4 +96,20 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("User inserted. id= %d\n", id)
+
+	row = db.QueryRow(`
+		SELECT name, email
+		FROM users
+		WHERE id=$1;
+	`, id)
+
+	var testName, testEmail string
+	err = row.Scan(&testName, &testEmail)
+	if err == sql.ErrNoRows {
+		fmt.Println("Error, no rows!")
+	}
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("User information: name=%s, email=%s\n", testName, testEmail)
 }
