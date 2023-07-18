@@ -1675,3 +1675,39 @@ for i := 1; i <= 5; i++ {
 }
 fmt.Println("Create fake orders.")
 ```
+
+### 085. 查询多条记录(Querying Multiple Records)
+
+调用 `Query` 函数查询多条数据。
+```go
+type Order struct {
+	ID          int
+	UserID      int
+	Amount      int
+	Description string
+}
+var orders []Order
+rows, err := db.Query(`
+	SELECT id, amount, description
+	FROM orders
+	WHERE user_id=$1
+`, userID)
+if err != nil {
+	panic(err)
+}
+defer rows.Close()
+
+for rows.Next() {
+	var order Order
+	order.UserID = userID
+	err := rows.Scan(&order.ID, &order.Amount, &order.Description)
+	if err != nil {
+		panic(err)
+	}
+	orders = append(orders, order)
+}
+if rows.Err() != nil {
+	panic(rows.Err())
+}
+fmt.Println("Orders: ", orders)
+```

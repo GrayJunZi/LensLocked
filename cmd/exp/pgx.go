@@ -97,6 +97,7 @@ func main() {
 	}
 	fmt.Printf("User inserted. id= %d\n", id)
 
+	// 查询单条数据
 	row = db.QueryRow(`
 		SELECT name, email
 		FROM users
@@ -113,6 +114,7 @@ func main() {
 	}
 	fmt.Printf("User information: name=%s, email=%s\n", testName, testEmail)
 
+	// 创建订单
 	userID := 1
 	for i := 1; i <= 5; i++ {
 		amount := i * 100
@@ -127,4 +129,36 @@ func main() {
 		}
 	}
 	fmt.Println("Create fake orders.")
+
+	// 查询多条数据
+	type Order struct {
+		ID          int
+		UserID      int
+		Amount      int
+		Description string
+	}
+	var orders []Order
+	rows, err := db.Query(`
+		SELECT id, amount, description
+		FROM orders
+		WHERE user_id=$1
+	`, userID)
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var order Order
+		order.UserID = userID
+		err := rows.Scan(&order.ID, &order.Amount, &order.Description)
+		if err != nil {
+			panic(err)
+		}
+		orders = append(orders, order)
+	}
+	if rows.Err() != nil {
+		panic(rows.Err())
+	}
+	fmt.Println("Orders: ", orders)
 }
