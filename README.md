@@ -1569,3 +1569,23 @@ func main() {
 	fmt.Println("Connected!")
 }
 ```
+
+### 079. 使用Go执行SQL(Executing SQL with Go)
+
+调用 `Exec` 函数执行SQL语句。
+```go
+_, err = db.Exec(`
+	CREATE TABLE IF NOT EXISTS users (
+		id serial PRIMARY KEY,
+		name TEXT,
+		email TEXT UNIQUE NOT NULL
+	);
+
+	CREATE TABLE IF NOT EXISTS orders (
+		id serial PRIMARY KEY,
+		user_id INT NOT NULL,
+		amount INT,
+		description TEXT
+	);
+`)
+```
