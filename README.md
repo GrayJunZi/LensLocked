@@ -1711,3 +1711,13 @@ if rows.Err() != nil {
 }
 fmt.Println("Orders: ", orders)
 ```
+
+### 086. ORM与SQL对比(ORMs vs SQL)
+
+ORM是对象关系映射(Object-rrelational mapping)的缩写。
+
+- [Gorm](https://gorm.io) 是较为常用的ORM库。
+
+使用不同的ORM，必须学习完全不同的代码，这样做的缺点是，任何时候有人来和你一起处理应用程序，必须学习新的东西，所学到的信息和知识不一定适用于任何地方。
+
+当使用SQL时，研究所有的SQL会很有用，因为SQL数据库的使用非常频繁。
