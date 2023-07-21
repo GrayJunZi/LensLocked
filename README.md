@@ -1753,3 +1753,14 @@ ORM是对象关系映射(Object-rrelational mapping)的缩写。
 3. 在散列前给密码加一点盐。
 4. 在身份验证过程中使用时间常数函数。
 
+
+### 090. 第三方身份验证选项(Third Party Authentication Options)
+
+我们为什么不使用软件包或第三方服务进行身份验证?
+
+- 像`Auth0`这样的付费服务
+
+我们不使用这些的原因:
+- 避免无意中破坏自己(Avoid inadvertently sabotaging yourself)
+- 定制(Customization)
+- 成本(Cost)
