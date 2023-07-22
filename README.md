@@ -1764,3 +1764,76 @@ ORM是对象关系映射(Object-rrelational mapping)的缩写。
 - 避免无意中破坏自己(Avoid inadvertently sabotaging yourself)
 - 定制(Customization)
 - 成本(Cost)
+
+### 091. 什么是哈希函数(What is a Hash Function?)
+
+哈希函数:
+- 接受任意数据。
+- 使用数据生成固定大小的结果。
+- 在相同的输入下生成相同的结果。
+
+应用哈希函数通常被称为“hashing”。
+
+从哈希函数返回的值可以称为“hash value”，也可以称为“hash”。
+
+```go
+func hash(s string) int {
+	return len(s) % 5
+}
+```
+
+由于输入是无限的，输出是固定的，在固定的输出规模下，碰撞是不可避免的。
+
+在我们的`“hash”`函数碰撞是非常有可能的。
+
+当我们对密码进行哈希运算时，我们将使用一个哈希函数，在这个函数中，冲突是非常不可能的。
+
+#### 哈希不能被反转
+
+- 无法获取哈希值和哈希函数并计算输入。
+- 这部分是因为多个输入可能导致相同的输出。
+
+#### HMAC
+
+这是一种较为常见的，用于数字签名数据的方式。
+
+```go
+package main
+
+import (
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/hex"
+	"fmt"
+)
+
+func main() {
+	secretKeyForHash := "secret-key"
+	password := "this is a totally secret password nobody will guess"
+
+	h := hmac.New(sha256.New, []byte(secretKeyForHash))
+
+	h.Write([]byte(password))
+
+	result := h.Sum(nil)
+
+	fmt.Println(hex.EncodeToString(result))
+}
+```
+
+`HMAC`需要用于散列数据的密钥(Secret Key)，HMAC不是加密!是无法逆转的。
+
+HMAC密钥为我们提供了一种生成唯一散列的方法，其他人没有密钥就无法复制这些散列。
+
+#### 散列函数的用法
+- 哈希映射。
+- 对数据进行数字签名。
+- 每一个使用的散列函数会有所不同。
+
+数字签名可以使用HMAC，因为它具有密钥。
+
+密码将使用像bcrypt这样的函数
+
+地图可能会使用一个没有密钥的散列函数。同时寻找比密码使用更快的散列函数，因为减轻密码破解攻击不是map散列的目标。
+
+设置身份验证系统时，我们应该始终使用密码特定的哈希函数。
