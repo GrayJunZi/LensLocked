@@ -1907,3 +1907,17 @@ func hash(password string) {
 	fmt.Println(string(hashedBytes))
 }
 ```
+
+### 096. 将密码与bcrypt散列进行比较(Comparing a Password with a bcrypt Hash)
+
+使用 bcrypt 提供的 `CompareHashAndPassword` 函数比较哈希与密码是否匹配。
+```go
+func compare(password, hash string) {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	if err != nil {
+		fmt.Printf("Password is invalid: %v\n", password)
+		return
+	}
+	fmt.Println("Password is correct!")
+}
+```
