@@ -1893,3 +1893,17 @@ HMAC密钥为我们提供了一种生成唯一散列的方法，其他人没有�
 ```bash
 go build cmd/bcrypt/bcrypt.go
 ```
+
+### 095. 使用bcrypt散列密码(Hashing Password with bcrypt)
+
+使用bcrypt提供的 `GenerateFromPassword` 函数对密码进行哈希。
+```go
+func hash(password string) {
+	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		fmt.Printf("error hashing: %v\n", password)
+		return
+	}
+	fmt.Println(string(hashedBytes))
+}
+```
