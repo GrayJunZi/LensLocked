@@ -1958,7 +1958,7 @@ type UserService struct {
 }
 ```
 
-### 099. 创建用户方法(Creating User Method)
+### 099. 创建用户方法(Create User Method)
 
 添加创建用户方法，将密码进行加密，然后插入到数据库中。
 ```go
@@ -1984,5 +1984,42 @@ func (us *UserService) Create(email, password string) (*User, error) {
 		return nil, fmt.Errorf("create user: %w", err)
 	}
 	return &user, err
+}
+```
+
+### 100. Models包中的Postgres配置(Postgres Config for the Models Package)
+
+定义Postgres配置模型并添加默认配置函数与打开连接函数。
+```go
+type PostgresConfig struct {
+	Host     string
+	Port     string
+	User     string
+	Password string
+	Database string
+	SSLMode  string
+}
+
+func (config PostgresConfig) String() string {
+	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", config.Host, config.Port, config.User, config.Password, config.Database, config.SSLMode)
+}
+
+func DefaultPostgresConfig() PostgresConfig {
+	return PostgresConfig{
+		Host:     "localhost",
+		Port:     "5432",
+		User:     "root",
+		Password: "root",
+		Database: "lenslocked",
+		SSLMode:  "disable",
+	}
+}
+
+func Open(config PostgresConfig) (*sql.DB, error) {
+	db, err := sql.Open("pgx", config.String())
+	if err != nil {
+		return nil, fmt.Errorf("open: %w", err)
+	}
+	return db, nil
 }
 ```
