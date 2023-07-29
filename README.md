@@ -2023,3 +2023,23 @@ func Open(config PostgresConfig) (*sql.DB, error) {
 	return db, nil
 }
 ```
+
+### 101. 在Users控制器中使用UserService(UserService in the Users Controller)
+
+创建DB对象，初始化UserService并传入到Users控制器中。
+```go
+cfg := models.DefaultPostgresConfig()
+db, err := models.Open(cfg)
+if err != nil {
+	panic(err)
+}
+defer db.Close()
+
+userService := models.UserService{
+	DB: db,
+}
+
+usersC := controllers.Users{
+	UserService: &userService,
+}
+```
