@@ -2134,3 +2134,25 @@ func (us *UserService) Authenticate(email, password string) (*User, error) {
 	return &user, nil
 }
 ```
+
+### 105. 处理登录(Process Sign In Attempts)
+
+从表单中获取邮箱和密码并验证用户是否登录成功。
+```go
+func (u Users) ProcessSignIn(w http.ResponseWriter, r *http.Request) {
+	var data struct {
+		Email    string
+		Password string
+	}
+	data.Email = r.FormValue("email")
+	data.Password = r.FormValue("password")
+	user, err := u.UserService.Authenticate(data.Email, data.Email)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Something went wrong.", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, "User authenticated: %+v", user)
+}
+```
