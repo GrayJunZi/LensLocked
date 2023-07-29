@@ -1921,3 +1921,30 @@ func compare(password, hash string) {
 	fmt.Println("Password is correct!")
 }
 ```
+
+## 十二、向我们的应用程序添加用户(Adding Users to our App)
+
+### 097. 定义用户模型(Defining the User Model)
+
+创建 `users` 表
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL
+);
+```
+
+进入容器中执行sql
+```bash
+docker exec -it lenslocked-db-1 /usr/bin/psql -U root -d lenslocked
+```
+
+定义用户模型
+```go
+type User struct {
+	ID           uint
+	Email        string
+	PasswordHash string
+}
+```
