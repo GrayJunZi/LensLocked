@@ -1957,3 +1957,32 @@ type UserService struct {
 	DB *sql.DB
 }
 ```
+
+### 099. 创建用户方法(Creating User Method)
+
+添加创建用户方法，将密码进行加密，然后插入到数据库中。
+```go
+func (us *UserService) Create(email, password string) (*User, error) {
+	email = strings.ToLower(email)
+	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, fmt.Errorf("create user: %w", err)
+	}
+	passwordHash := string(hashedBytes)
+
+	user := User{
+		Email:        email,
+		PasswordHash: passwordHash,
+	}
+
+	row := us.DB.QueryRow(`
+		INSERT INTO users (email,password_hash)
+		VALUES ($1, $2) RETURNING id;
+	`, email, passwordHash)
+	err = row.Scan(&user.ID)
+	if err != nil {
+		return nil, fmt.Errorf("create user: %w", err)
+	}
+	return &user, err
+}
+```
