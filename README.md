@@ -1948,3 +1948,12 @@ type User struct {
 	PasswordHash string
 }
 ```
+
+### 098. 创建用户服务(Creating the UserService)
+
+创建 `UserService`
+```go
+type UserService struct {
+	DB *sql.DB
+}
+```
