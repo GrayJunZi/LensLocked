@@ -2194,3 +2194,17 @@ func (u Users) CurrentUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Headers: %+v\n", r.Header)
 }
 ```
+
+### 110. 保护来自XSS的Cookie(Securing Cookies from XSS)
+
+我们不希望客户端更改Cookie来篡改数据，并将它们发送到远程服务器中，然后开始以其他用户身份登录，最简单的方式是删除Cookie的JavaScript的访问。
+
+将 `HttpOnly` 改为 `true`，不允许JavaScript访问Cookie来变更数据。
+```go
+cookie := http.Cookie{
+	Name:     "email",
+	Value:    user.Email,
+	Path:     "/",
+	HttpOnly: true,
+}
+```
