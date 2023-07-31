@@ -2179,3 +2179,18 @@ http.SetCookie(w, &cookie)
 ### 108. 使用Chrome浏览器查看Cookie(Viewing Cookies with Chrome)
 
 在 `Chrome` 浏览器中安装 `EditThisCookie` 扩展来查看Cookie。
+
+### 109. 使用Go查看Cookie(Viewing Cookies with Go)
+
+调用 `Cookie` 函数获取Cookie中的数据。
+```go
+func (u Users) CurrentUser(w http.ResponseWriter, r *http.Request) {
+	email, err := r.Cookie("email")
+	if err != nil {
+		fmt.Fprint(w, "The email cookie could not be read.")
+		return
+	}
+	fmt.Fprintf(w, "Email cookie:%s\n", email.Value)
+	fmt.Fprintf(w, "Headers: %+v\n", r.Header)
+}
+```
