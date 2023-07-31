@@ -2175,3 +2175,7 @@ cookie := http.Cookie{
 }
 http.SetCookie(w, &cookie)
 ```
+
+### 108. 使用Chrome浏览器查看Cookie(Viewing Cookies with Chrome)
+
+在 `Chrome` 浏览器中安装 `EditThisCookie` 扩展来查看Cookie。
