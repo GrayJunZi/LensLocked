@@ -2161,4 +2161,17 @@ func (u Users) ProcessSignIn(w http.ResponseWriter, r *http.Request) {
 
 无状态协议最重要的是，与其保持连接活跃，连接在发送回响应后立即终止，它不需要记住我们的任何事情，所以从服务器的角度看它是完全无状态的。
 
-`cookie`是存储在浏览器上的数据，对服务器的Web请求会包含并传递信息。
+`cookie`是存储在浏览器上的数据，对服务器的Web请求会包含并传递一些信息。
+
+
+### 107. 创建Cookies(Creating Cookies)
+
+使用 `http` 包下的 `SetCookie` 函数来设置Cookie。
+```go
+cookie := http.Cookie{
+	Name:  "email",
+	Value: user.Email,
+	Path:  "/",
+}
+http.SetCookie(w, &cookie)
+```
