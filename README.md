@@ -2220,3 +2220,17 @@ Cookie劫持有两种方式，首先是物理劫持，假如有人偷了你的�
 也有像 [Caddy](https://caddyserver.com) 这样的东西，它利用了SSL的优势，它实际上会为处理很多工作比如拿到我们的TLS证书确保我们的网站是安全的。
 
 `Firesheep` 会话劫持攻击，是由一个名为 `Eric Butler` 的开发人员创建的扩展，他的目标是提高人们对需要安全连接网站的认识。事实上，当时许多网站都没有使用安全连接。那么这个扩展做了什么呢？这是一个Firefox扩展，它将有效的捕捉公共WIFI网络中的流量，当它看到人们登录网站时，它会在左侧显示它们，当点击其中一个时，它允许我们以该用户的身份登录，因为流量没有被加密，所以Firesheep可以看到流量。不过 `Eric Butler`并没有发布它，他不想让人们去滥用它，目标是非常清楚的表明这是一个主要问题。
+
+### 112. CSRF攻击(CSRF Attacks)
+
+CSRF是跨站请求伪造(Cross-site Request Forgery)的缩写。
+
+可以由服务端生成一个防止跨站请求伪造的token，客户端携带这个token，服务端进行验证，如果与生成的不一致则为非法请求。
+```go
+csrfToken = getCSRFToken()
+cookie := http.Cookies{
+	Name: "csrf-token",
+	Value: csrfToken
+}
+http.SetCookie(cookie)
+```
