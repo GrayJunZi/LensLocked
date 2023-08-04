@@ -2234,3 +2234,36 @@ cookie := http.Cookies{
 }
 http.SetCookie(cookie)
 ```
+
+### 113. CSRF中间件(CSRF Middleware)
+
+**为什么我们不写我们自己的?**
+- 重要的是要了解事情是如何工作的。
+- CSRF库易于开箱即用。
+- 占用空间极小，因此易于稍后更换。
+
+**什么是中间件**
+
+中间件实际上是一个返回值为Handler的中间件处理函数。
+
+```go
+func TimerMiddleware(h http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		h(w, r)
+		fmt.Println("Request time:", time.Since(start))
+	}
+}
+```
+
+安装csrf库
+```bash
+go get github.com/gorilla/csrf
+```
+
+添加CSRF中间件
+```go
+csrfKey := "the lenslocked csrf key"
+csrfMiddleware := csrf.Protect([]byte(csrfKey), csrf.Secure(false))
+http.ListenAndServe(":3000", csrfMiddleware(r))
+```
