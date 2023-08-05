@@ -2697,3 +2697,19 @@ func (ss *SessionService) User(token string) (*User, error) {
 	return &user, nil
 }
 ```
+
+### 134. 删除会话(Deleting Sessions)
+
+```go
+func (ss *SessionService) Delete(token string) error {
+	tokenHash := ss.hash(token)
+	_, err := ss.DB.Exec(`
+		DELETE FROM sessions
+		WHERE token_hash = $1;
+	`, tokenHash)
+	if err != nil {
+		return fmt.Errorf("delete: %w", err)
+	}
+	return nil
+}
+```
