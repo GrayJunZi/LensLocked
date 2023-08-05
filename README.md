@@ -2506,3 +2506,23 @@ func SessionToken() (string, error) {
 - 32字节=1e77个可能的字符串 - 很多!
 
 当我们获得用户时，我们需要它保持不可能猜到任何人的记忆令牌，我们还需要考虑那些能快速猜出答案的电脑。通过使用32字节或1e77个可能值，我们可以确保攻击者几平不可能猜到有效的会话令牌。
+
+### 124. 定义会话表(Defining the Sessions Table)
+
+创建会话表的sql语句。
+```sql
+CREATE TABLE sessions (
+    id SERIAL PRIMARY KEY,
+    user_id INT UNIQUE,
+    token_hash TEXT UNIQUE NOT NULL,
+);
+```
+
+定义会话模型
+```go
+type Session struct {
+	ID        int
+	UserID    int
+	TokenHash string
+}
+```
