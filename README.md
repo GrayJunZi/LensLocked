@@ -2416,3 +2416,24 @@ JWTs是对JSON数据进行数字签名的标准。
 #### 为什么不使用JWT?
 
 复杂且没有足够的好处。
+
+## 十四、会话(Sessions)
+
+### 120. 随机字符串与crypto/rand(Random Strings with crypto/rand)
+
+我们的想法是为每个用户分配一个会话令牌，这将是一个很难猜测的随机字符串，它的工作方式是，当用户发送web请求时，此会话令牌将作为web请求的一部分包括在内，不管是在cookie中还是在其他地方，然后我们的服务器将查找此会话令牌映射到用户。
+
+```go
+func main() {
+	n := 32
+	b := make([]byte, n)
+	nRead, err := rand.Read(b)
+	if nRead < n {
+		panic("didn't read enough random bytes")
+	}
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(base64.URLEncoding.EncodeToString(b))
+}
+```
