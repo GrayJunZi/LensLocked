@@ -2666,3 +2666,34 @@ if err == sql.ErrNoRows {
 	err = row.Scan(&session.ID)
 }
 ```
+
+### 133. 通过会话令牌查询用户(Querying Users via Session Token)
+
+```go
+func (ss *SessionService) User(token string) (*User, error) {
+	tokenHash := ss.hash(token)
+	var user User
+	row := ss.DB.QueryRow(`
+		SELECT user_id 
+		FROM sessions 
+		WHERE token_hash = $1
+	`, tokenHash)
+	err := row.Scan(&user.ID)
+	if err != nil {
+		return nil, fmt.Errorf("User: %w", err)
+	}
+
+	row = ss.DB.QueryRow(`
+		SELECT id, password_hash
+		FROM users
+		WHERE id = $1
+	`, user.ID)
+
+	err = row.Scan(&user.ID, &user.PasswordHash)
+	if err != nil {
+		return nil, fmt.Errorf("User: %w", err)
+	}
+
+	return &user, nil
+}
+```
