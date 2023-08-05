@@ -49,9 +49,10 @@ type Template struct {
 	htmlTpl *template.Template
 }
 
-func (t Template) Execute(w http.ResponseWriter, data interface{}) {
+func (t Template) Execute(w http.ResponseWriter, r *http.Request, data interface{}) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	err := t.htmlTpl.Execute(w, data)
+	t.htmlTpl.Execute(w, data)
 	if err != nil {
 		log.Printf("执行模板: %v", err)
 		http.Error(w, "解析模板出错.", http.StatusInternalServerError)
