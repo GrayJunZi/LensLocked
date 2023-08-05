@@ -2601,3 +2601,19 @@ func readCookie(r *http.Request, name string) (string, error) {
 	return c.Value, nil
 }
 ```
+
+### 128. 创建会话令牌(Create Session Tokens)
+
+```go
+func (ss *SessionService) Create(userID int) (*Session, error) {
+token, err := rand.SessionToken()
+if err != nil {
+	return nil, fmt.Errorf("Create: %w", err)
+}
+session := Session{
+	UserID: userID,
+	Token:  token,
+}
+return &session, nil
+}
+```
