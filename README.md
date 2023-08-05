@@ -2437,3 +2437,20 @@ func main() {
 	fmt.Println(base64.URLEncoding.EncodeToString(b))
 }
 ```
+
+### 121. 探索math/rand(Exploring math/rand)
+
+设置随机种子`rand.Seed()`否则生成的数字将是一样的。
+
+```go
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+func main() {
+	rand.Seed(time.Now().UnixNano())
+	fmt.Println(rand.Intn(100))
+}
+```
