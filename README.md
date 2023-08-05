@@ -2549,3 +2549,23 @@ func (ss *SessionService) User(token string) (*User, error) {
 	return nil, nil
 }
 ```
+
+### 126. 用户控制器中的会话(Sessions in the Users Controller)
+
+设置Cookie
+```go
+session, err := u.SessionService.Create(user.ID)
+if err != nil {
+	fmt.Println(err)
+	http.Error(w, "Something went wrong.", http.StatusInternalServerError)
+	return
+}
+cookie := http.Cookie{
+	Name:     "session",
+	Value:    session.Token,
+	Path:     "/",
+	HttpOnly: true,
+}
+http.SetCookie(w, &cookie)
+http.Redirect(w, r, "/users/me", http.StatusFound)
+```
