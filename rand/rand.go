@@ -10,7 +10,7 @@ func Bytes(n int) ([]byte, error) {
 	b := make([]byte, n)
 	nRead, err := rand.Read(b)
 	if err != nil {
-		return nil, fmt.Errorf("Btes: %w", err)
+		return nil, fmt.Errorf("Bytes: %w", err)
 	}
 	if nRead < n {
 		return nil, fmt.Errorf("Bytes: didn't read enough random bytes")
@@ -24,10 +24,4 @@ func String(n int) (string, error) {
 		return "", fmt.Errorf("String: %w", err)
 	}
 	return base64.URLEncoding.EncodeToString(b), nil
-}
-
-const SessionTokenBytes = 32
-
-func SessionToken() (string, error) {
-	return String(SessionTokenBytes)
 }

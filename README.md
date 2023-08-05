@@ -2617,3 +2617,7 @@ session := Session{
 return &session, nil
 }
 ```
+
+### 129. 重构rand包(Refactor the rand Package)
+
+将生成Session Token函数从rand包中移除。
