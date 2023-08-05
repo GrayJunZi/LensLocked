@@ -2328,3 +2328,31 @@ func (t Template) Execute(w http.ResponseWriter, r *http.Request, data interface
 	}
 }
 ```
+
+### 117. 请求特定的CSRF模板功能(Request Specific CSRF Template Function)
+
+调用 `csrf.TemplateField` 生成 token
+```go
+func (t Template) Execute(w http.ResponseWriter, r *http.Request, data interface{}) {
+	tpl, err := t.htmlTpl.Clone()
+	if err != nil {
+		log.Printf("cloing template: %v", err)
+		http.Error(w, "There was an error rendering the page.", http.StatusInternalServerError)
+		return
+	}
+	tpl = tpl.Funcs(
+		template.FuncMap{
+			"csrfField": func() template.HTML {
+				return csrf.TemplateField(r)
+			},
+		},
+	)
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	err = tpl.Execute(w, data)
+	if err != nil {
+		log.Printf("执行模板: %v", err)
+		http.Error(w, "解析模板出错.", http.StatusInternalServerError)
+		return
+	}
+}
+```
