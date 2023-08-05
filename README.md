@@ -2646,3 +2646,23 @@ if err != nil {
 	return nil, fmt.Errorf("Create: %w", err)
 }
 ```
+
+### 132. 更新已存在的会话(Updating Existing Sessions)
+
+如果会话已存在则更新，不存在则添加。
+```go
+row := ss.DB.QueryRow(`
+	UPDATE sessions
+	SET token_hash = $2
+	WHERE user_id = $1;
+`, session.UserID, session.TokenHash)
+err = row.Scan(&session.ID)
+if err == sql.ErrNoRows {
+	row = ss.DB.QueryRow(`
+		INSERT INTO sessions (user_id, token_hash)
+		VALUES ($1, $2)
+		RETURNING id;
+	`, session.UserID, session.TokenHash)
+	err = row.Scan(&session.ID)
+}
+```
