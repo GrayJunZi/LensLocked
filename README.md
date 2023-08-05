@@ -2631,3 +2631,18 @@ func (ss *SessionService) hash(token string) string {
 	return base64.URLEncoding.EncodeToString(tokenHash[:])
 }
 ```
+
+### 131. 插入会话到数据库中(Insert Sessions into the Database)
+
+执行SQL将会话插入到数据库中
+```go
+row := ss.DB.QueryRow(`
+	INSERT INTO sessions (user_id, token_hash)
+	VALUES ($1, $2)
+	RETURNING id;
+`, session.UserID, session.TokenHash)
+err = row.Scan(&session.ID)
+if err != nil {
+	return nil, fmt.Errorf("Create: %w", err)
+}
+```
