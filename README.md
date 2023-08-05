@@ -2268,7 +2268,7 @@ csrfMiddleware := csrf.Protect([]byte(csrfKey), csrf.Secure(false))
 http.ListenAndServe(":3000", csrfMiddleware(r))
 ```
 
-### 114. 通过数据向模板提供CSRF(Providing CSRF to Templates via Data)
+### 114. 通过Data向模板提供CSRF(Providing CSRF to Templates via Data)
 
 生成 csrf Token并传入到模板中
 ```go
@@ -2288,4 +2288,28 @@ func (u Users) New(w http.ResponseWriter, r *http.Request) {
 <div class="hidden">
 	{{.CSRFField}}
 </div>
+```
+
+### 115. 自定义模板函数(Custom Template Functions)
+
+通过 `tpl.Funcs` 添加自定义模板函数。
+```go
+func ParseFS(fs fs.FS, patterns ...string) (Template, error) {
+	tpl := template.New(patterns[0])
+	tpl = tpl.Funcs(
+		template.FuncMap{
+			"csrfField": func() template.HTML {
+				return `<input type="hidden"/>`
+			},
+		},
+	)
+	tpl, err := tpl.ParseFS(fs, patterns...)
+	if err != nil {
+		return Template{}, fmt.Errorf("parsing template: %w", err)
+	}
+
+	return Template{
+		htmlTpl: tpl,
+	}, nil
+}
 ```
