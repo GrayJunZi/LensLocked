@@ -6,6 +6,9 @@
             今天开始分享你的照片！
         </h1>
         <form action="/users" method="post">
+            <div class="hidden">
+                {{.CSRFField}}
+            </div>
             <div class="py-2">
                 <label for="email" class="text-sm font-semibold text-gray-800">邮箱</label>
                 <input name="email" id="email" type="email" placeholder="邮箱地址" required autocomplete="email"

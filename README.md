@@ -2267,3 +2267,25 @@ csrfKey := "the lenslocked csrf key"
 csrfMiddleware := csrf.Protect([]byte(csrfKey), csrf.Secure(false))
 http.ListenAndServe(":3000", csrfMiddleware(r))
 ```
+
+### 114. 通过数据向模板提供CSRF(Providing CSRF to Templates via Data)
+
+生成 csrf Token并传入到模板中
+```go
+func (u Users) New(w http.ResponseWriter, r *http.Request) {
+	var data struct {
+		Email     string
+		CSRFField template.HTML
+	}
+	data.Email = r.FormValue("email")
+	data.CSRFField = csrf.TemplateField(r)
+	u.Templates.New.Execute(w, data)
+}
+```
+
+在模板中加入csrf Token
+```html
+<div class="hidden">
+	{{.CSRFField}}
+</div>
+```
