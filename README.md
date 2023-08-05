@@ -2621,3 +2621,13 @@ return &session, nil
 ### 129. 重构rand包(Refactor the rand Package)
 
 将生成Session Token函数从rand包中移除。
+
+### 130. 哈希会话令牌(Hash Session Token)
+
+对token进行加密
+```go
+func (ss *SessionService) hash(token string) string {
+	tokenHash := sha256.Sum256([]byte(token))
+	return base64.URLEncoding.EncodeToString(tokenHash[:])
+}
+```
