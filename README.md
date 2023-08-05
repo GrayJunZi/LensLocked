@@ -2526,3 +2526,26 @@ type Session struct {
 	TokenHash string
 }
 ```
+
+### 125. 存根会话服务(Stubbing the SessionService)
+
+```go
+type Session struct {
+	ID        int
+	UserID    int
+	Token     string
+	TokenHash string
+}
+
+type SessionService struct {
+	DB *sql.DB
+}
+
+func (ss *SessionService) Create(userID int) (*Session, error) {
+	return nil, nil
+}
+
+func (ss *SessionService) User(token string) (*User, error) {
+	return nil, nil
+}
+```
