@@ -2736,3 +2736,14 @@ func (u Users) ProcessSignOut(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/signin", http.StatusFound)
 }
 ```
+
+### 136. 注销链接(Sign Out Link)
+
+```go
+<form action="/signout" method="post" class="inline pr-4">
+	<div class="hidden">
+		{{ csrfField }}
+	</div>
+	<button type="submit">Sign out</button>
+</form>
+```
