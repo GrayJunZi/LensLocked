@@ -2404,3 +2404,15 @@ func (t Template) Execute(w http.ResponseWriter, r *http.Request, data interface
 	io.Copy(w, &buf)
 }
 ```
+
+### 119. 保护Cookie免受篡改(Securing Cookies from Tampering)
+
+JWTs是对JSON数据进行数字签名的标准。
+
+#### 模糊处理(Obfuscation):
+
+这种方法通常被称为作为**会话**，以及随机字符串是一个会话令牌。
+
+#### 为什么不使用JWT?
+
+复杂且没有足够的好处。
