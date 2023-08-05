@@ -1,8 +1,10 @@
 package views
 
 import (
+	"bytes"
 	"fmt"
 	"html/template"
+	"io"
 	"io/fs"
 	"log"
 	"net/http"
@@ -21,8 +23,8 @@ func ParseFS(fs fs.FS, patterns ...string) (Template, error) {
 	tpl := template.New(patterns[0])
 	tpl = tpl.Funcs(
 		template.FuncMap{
-			"csrfField": func() template.HTML {
-				return `<input type="hidden"/>`
+			"csrfField": func() (template.HTML, error) {
+				return "", fmt.Errorf("csrfField not implemented")
 			},
 		},
 	)
@@ -66,10 +68,12 @@ func (t Template) Execute(w http.ResponseWriter, r *http.Request, data interface
 		},
 	)
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	err = tpl.Execute(w, data)
+	var buf bytes.Buffer
+	err = tpl.Execute(&buf, data)
 	if err != nil {
 		log.Printf("执行模板: %v", err)
 		http.Error(w, "解析模板出错.", http.StatusInternalServerError)
 		return
 	}
+	io.Copy(w, &buf)
 }
