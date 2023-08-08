@@ -2747,3 +2747,41 @@ func (u Users) ProcessSignOut(w http.ResponseWriter, r *http.Request) {
 	<button type="submit">Sign out</button>
 </form>
 ```
+
+## 十五、改进SQL
+
+### 137. SQL关系(SQL Relationships)
+
+一个会话属于一个用户，一个用户有一个会话。
+
+表结构如下
+```sql
+-- 帖子表
+CREATE TABLE posts (
+	id SERIAL PRIMARY KEY,
+	title TEXT NOT NULL,
+	markdown TEXT NOT NULL
+);
+
+-- 用户表
+CREATE TABLE users (
+	id SERIAL PRIMARY KEY,
+	email TEXT NOT NULL,
+	display_name TEXT NOT NULL
+);
+
+-- 评论表
+CREATE TABLE comments (
+	id SERIAL PRIMARY KEY,
+	user_id INT,
+	post_id INT,
+	markdown TEXT NOT NULL
+);
+```
+
+查询的关联关系为
+```sql
+SELECT * FROM posts
+JOIN comments ON posts.id = comments.post_id
+JOIN users ON users.id = comments.user_id;
+```
