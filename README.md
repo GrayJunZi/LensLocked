@@ -2823,3 +2823,11 @@ CREATE TABLE sessions (
     token_hash TEXT UNIQUE NOT NULL
 );
 ```
+
+### 140. 内连接(Inner Join)
+
+使用内连接进行查询，结果集为两张表的交集(`Join` 与 `Inner Join` 同等)
+```sql
+SELECT * FROM users
+JOIN sessions on users.id = sessions.user_id
+```
