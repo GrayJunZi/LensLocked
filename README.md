@@ -2812,3 +2812,14 @@ CREATE TABLE sessions (
 ALTER TABLE sessions
 ADD CONSTRAINT sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES users (id);
 ```
+
+### 139. 级联删除(On Delete Cascade)
+
+为列设置 `ON DELETE CASCADE` 级联删除。
+```sql
+CREATE TABLE sessions (
+    id SERIAL PRIMARY KEY,
+    user_id INT UNIQUE REFERENCES users (id) ON DELETE CASCADE,
+    token_hash TEXT UNIQUE NOT NULL
+);
+```
