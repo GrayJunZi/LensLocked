@@ -2785,3 +2785,30 @@ SELECT * FROM posts
 JOIN comments ON posts.id = comments.post_id
 JOIN users ON users.id = comments.user_id;
 ```
+
+### 138. 外键(Foreign Keys)
+
+使用 `REFERENCES` 进行外键关联。
+```sql
+CREATE TABLE sessions (
+    id SERIAL PRIMARY KEY,
+    user_id INT UNIQUE REFERENCES users (id),
+	author_id INT REFERENCES users (id),
+    token_hash TEXT UNIQUE NOT NULL
+);
+```
+或者使用 `FORIGN KEY` 指定外键。
+```sql
+CREATE TABLE sessions (
+    id SERIAL PRIMARY KEY,
+    user_id INT UNIQUE REFERENCES users (id),
+	author_id INT REFERENCES users (id),
+    token_hash TEXT UNIQUE NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users (id)
+);
+```
+再或者使用外键约束。
+```sql
+ALTER TABLE sessions
+ADD CONSTRAINT sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES users (id);
+```
