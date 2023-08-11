@@ -2896,3 +2896,14 @@ func (ss *SessionService) User(token string) (*User, error) {
 ```sql
 CREATE INDEX session_token_hash_idx ON sessions (token_hash, user_id, id);
 ```
+
+### 145. 关于冲突(On Conflict)
+
+当插入发生冲突时执行修改操作。
+```sql
+INSERT INTO sessions (user_id, token_hash)
+VALUES (1, 'xyz-123') ON CONFLICT (user_id) DO
+UPDATE
+SET token_hash = 'xyz-123';
+```
+
