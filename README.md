@@ -2857,3 +2857,23 @@ RIGHT JOIN sessions ON users.id = sessions.user_id;
 SELECT * FROM users
 FULL OUTER JOIN sessions ON users.id = sessions.user_id;
 ```
+
+### 142. 会话服务使用Join查询(Using Join in the SessionService)
+
+```go
+func (ss *SessionService) User(token string) (*User, error) {
+	tokenHash := ss.hash(token)
+	var user User
+	row := ss.DB.QueryRow(`
+		SELECT users.id, users.email, users.password_hash
+		FROM sessions 
+		JOIN users ON users.id = sessions.user_id
+		WHERE sessions.token_hash = $1
+	`, tokenHash)
+	err := row.Scan(&user.ID, &user.Email, &user.PasswordHash)
+	if err != nil {
+		return nil, fmt.Errorf("User: %w", err)
+	}
+	return &user, nil
+}
+```
