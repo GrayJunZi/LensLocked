@@ -2890,3 +2890,9 @@ func (ss *SessionService) User(token string) (*User, error) {
 	
 - 具有“UNIQUE”或“PRIMARY KEY”约束的列
 	- 当这些索引存在时，Postgres会自动创建一个唯一的索引。
+
+### 144. 创建PostgreSQL索引(Creating PostgreSQL Indexes)
+
+```sql
+CREATE INDEX session_token_hash_idx ON sessions (token_hash, user_id, id);
+```
