@@ -2831,3 +2831,29 @@ CREATE TABLE sessions (
 SELECT * FROM users
 JOIN sessions on users.id = sessions.user_id
 ```
+
+### 141. 左连接,右连接和全外连接(Left,Right,Full Outer Join)
+
+使用内连接查询
+```sql
+SELECT * FROM users
+INNER JOIN sessions ON users.id = sessions.user_id;
+```
+
+左外连接查询
+```sql
+SELECT * FROM users
+LEFT JOIN sessions ON users.id = sessions.user_id;
+```
+
+右外连接查询
+```sql
+SELECT * FROM users
+RIGHT JOIN sessions ON users.id = sessions.user_id;
+```
+
+全外连接查询
+```sql
+SELECT * FROM users
+FULL OUTER JOIN sessions ON users.id = sessions.user_id;
+```
