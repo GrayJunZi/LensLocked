@@ -2912,3 +2912,27 @@ SET token_hash = 'xyz-123';
 ### 146. 什么是模式迁移(What are Schema Migrations?)
 
 迁移分为两部分一部分是增量的添加操作，另一部分是对应的撤销操作。
+
+### 147. 迁移工具的工作原理(How Migrations Tools Work)
+
+创建迁移文件。
+```
+001-create_users.sql
+002-create_sessions.sql
+```
+
+通过 `up` 或 `down` 来执行迁移操作。
+```bash
+goose up
+goose down
+```
+
+```sql
+-- +goose Up
+CREATE TABLE uses (
+	...
+);
+
+-- +goose Down
+DROP TABLE users;
+```
