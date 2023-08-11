@@ -2877,3 +2877,16 @@ func (ss *SessionService) User(token string) (*User, error) {
 	return &user, nil
 }
 ```
+
+### 143. SQL索引(SQL Indexes)
+
+一些常见的东西，可能需要索引的几个例子：
+- 任何经常用于查询记录的字段。
+	- 例如，每次我们通过cookie查找用户是谁时，我们都会通过令牌散列查询会话。
+	- 我们也通过他们的电子邮件查找用户每次登录，所以这可能是另一个很好的候选人。
+- 常用于联接的列。
+	- sessions.user_id
+	- 许多外键都属于这一类，但有些外键可能使用得不够频繁，无法索引它们。
+	
+- 具有“UNIQUE”或“PRIMARY KEY”约束的列
+	- 当这些索引存在时，Postgres会自动创建一个唯一的索引。
