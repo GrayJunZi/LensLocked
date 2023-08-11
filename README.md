@@ -2907,3 +2907,8 @@ UPDATE
 SET token_hash = 'xyz-123';
 ```
 
+## 十六、模式迁移(Schema Migrations)
+
+### 146. 什么是模式迁移(What are Schema Migrations?)
+
+迁移分为两部分一部分是增量的添加操作，另一部分是对应的撤销操作。
