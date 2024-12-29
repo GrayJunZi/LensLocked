@@ -3320,3 +3320,42 @@ func main() {
 	fmt.Println(strings.HasPrefix(strValue, "b"))
 }
 ```
+
+### 158. 使用上下文值存储用户
+
+创建`context`文件夹。
+
+```bash
+mkdir context
+```
+
+使用 `Context` 包，存储用户以及读取用户：
+```go
+package context
+
+import (
+	"context"
+
+	"github.com/grayjunzi/lenslocked/models"
+)
+
+type key string
+
+const (
+	userKey key = "user"
+)
+
+func WithUser(ctx context.Context, user *models.User) context.Context {
+	return context.WithValue(ctx, userKey, user)
+}
+
+func User(ctx context.Context) *models.User {
+	val := ctx.Value(userKey)
+	user, ok := val.(*models.User)
+	if !ok {
+		return nil
+	}
+
+	return user
+}
+``` 
