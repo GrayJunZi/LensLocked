@@ -3067,3 +3067,56 @@ goose postgres "host=localhost port=5432 user=root password=root dbname=lenslock
 ```bash
 goose postgres "host=localhost port=5432 user=root password=root dbname=lenslocked sslmode=disable" up
 ```
+
+### 149. 转换为模式迁移
+
+为 `users` 表创建迁移。
+```bash
+goose create users sql
+```
+
+编写迁移内容：
+
+```sql
+-- +goose Up
+-- +goose StatementBegin
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL
+);
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+DROP TABLE users;
+-- +goose StatementEnd
+```
+
+为 `sessions` 创建迁移。
+```bash
+goose create sessions sql
+```
+
+编写迁移内容：
+
+```sql
+-- +goose Up
+-- +goose StatementBegin
+CREATE TABLE sessions (
+    id SERIAL PRIMARY KEY,
+    user_id INT UNIQUE REFERENCES users (id) ON DELETE CASCADE,
+    token_hash TEXT UNIQUE NOT NULL
+);
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+DROP TABLE sessions;
+-- +goose StatementEnd
+```
+
+执行迁移操作：
+```bash
+goose postgres "host=localhost port=5432 user=root password=root dbname=lenslocked sslmode=disable" up
+```
