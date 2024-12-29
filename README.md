@@ -3285,3 +3285,38 @@ func main() {
 	fmt.Println(value)
 }
 ```
+
+### 157. 上下文值的类型
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+)
+
+type ctxKey string
+
+const (
+	favoriteColorKey ctxKey = "favorite-color"
+)
+
+func main() {
+	ctx := context.Background()
+	ctx = context.WithValue(ctx ,favoriteColorKey, "blue")
+
+	value := ctx.Value(favoriteColorKey)
+
+	intValue, ok := value.(int)
+	if !ok {
+		fmt.Println("it isn't an int")
+		return
+	}
+
+	strValue := value.(string)
+
+	fmt.Println(strValue)
+	fmt.Println(strings.HasPrefix(strValue, "b"))
+}
+```
