@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/grayjunzi/lenslocked/context"
 	"github.com/grayjunzi/lenslocked/models"
 )
 
@@ -77,18 +78,27 @@ func (u Users) ProcessSignIn(w http.ResponseWriter, r *http.Request) {
 }
 
 func (u Users) CurrentUser(w http.ResponseWriter, r *http.Request) {
-	token, err := readCookie(r, CookieSession)
-	if err != nil {
-		fmt.Println(err)
+	user := context.User(r.Context())
+	if user == nil {
 		http.Redirect(w, r, "/signin", http.StatusFound)
 		return
 	}
-	user, err := u.SessionService.User(token)
-	if err != nil {
-		fmt.Println(err)
-		http.Redirect(w, r, "/signin", http.StatusFound)
-		return
-	}
+
+	/*
+		token, err := readCookie(r, CookieSession)
+		if err != nil {
+			fmt.Println(err)
+			http.Redirect(w, r, "/signin", http.StatusFound)
+			return
+		}
+		user, err := u.SessionService.User(token)
+		if err != nil {
+			fmt.Println(err)
+			http.Redirect(w, r, "/signin", http.StatusFound)
+			return
+		}
+	*/
+
 	fmt.Fprintf(w, "Current user: %s\n", user.Email)
 }
 

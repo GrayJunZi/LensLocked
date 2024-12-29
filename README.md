@@ -3359,3 +3359,19 @@ func User(ctx context.Context) *models.User {
 	return user
 }
 ``` 
+
+### 159. 读取请求上下文值
+
+可以通过 `http.Request` 获取当前请求的上下文。
+
+```go
+func (u Users) CurrentUser(w http.ResponseWriter, r *http.Request) {
+	user := context.User(r.Context())
+	if user == nil {
+		http.Redirect(w, r, "/signin", http.StatusFound)
+		return
+	}
+
+	fmt.Fprintf(w, "Current user: %s\n", user.Email)
+}
+```
