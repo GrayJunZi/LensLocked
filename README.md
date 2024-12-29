@@ -3227,3 +3227,7 @@ func downWidget(ctx context.Context, tx *sql.Tx) error {
 	return nil
 }
 ```
+
+### 154. 移除旧SQL文件
+
+删除 `models/sql` 文件夹。
