@@ -3243,11 +3243,44 @@ func downWidget(ctx context.Context, tx *sql.Tx) error {
 ```go
 package main
 
+import (
+	"context"
+	"fmt"
+)
+
 func main() {
 	ctx := context.Background()
 	ctx = context.WithValue(ctx ,"favorite-color", "blue")
 
 	value := ctx.Value("faviorite-color")
+	
+	fmt.Println(value)
+}
+```
+
+### 156. 改进上下文键
+
+将上下文的Key从字面量改为常量存储，将会减少错误编码的情况。
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+)
+
+type ctxKey string
+
+const (
+	favoriteColorKey ctxKey = "favorite-color"
+)
+
+func main() {
+	ctx := context.Background()
+	ctx = context.WithValue(ctx ,favoriteColorKey, "blue")
+
+	value := ctx.Value(favoriteColorKey)
 	
 	fmt.Println(value)
 }
