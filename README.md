@@ -2218,6 +2218,8 @@ func (u Users) ProcessSignIn(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
+## 十三、使用Cookie记住用户
+
 ### 106. 无状态服务器(Stateless Servers)
 
 无状态协议最重要的是，与其保持连接活跃，连接在发送回响应后立即终止，它不需要记住我们的任何事情，所以从服务器的角度看它是完全无状态的。
@@ -3231,3 +3233,22 @@ func downWidget(ctx context.Context, tx *sql.Tx) error {
 ### 154. 移除旧SQL文件
 
 删除 `models/sql` 文件夹。
+
+## 十七、通过上下文获取当前用户
+
+### 155. 使用上下文存储值
+
+`Context` 包是用来存储值的，它对每个单独的请求都进行单独存储。或者可以用它来做一些事情，例如设置超时、取消进程等。
+
+```go
+package main
+
+func main() {
+	ctx := context.Background()
+	ctx = context.WithValue(ctx ,"favorite-color", "blue")
+
+	value := ctx.Value("faviorite-color")
+	
+	fmt.Println(value)
+}
+```
