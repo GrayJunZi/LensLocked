@@ -31,6 +31,8 @@ func main() {
 
 ### 003. 包与导入(Packages and Imports)
 
+在项目的初期可能所有的代码都写在 `main.go` 中，随着代码的增长，我们需要把它们拆分成不同的包中。
+
 在Go语言中使用 `package` 来标识当前包名称。
 
 ```go
@@ -77,6 +79,8 @@ Web请求有几个主要组成部分：
 - Url - 请求服务器地址。
 - Mehtod - 请求方式。
 - StatusCode - 状态码。
+- Request Headers - 请求头。
+- Response Headers - 响应头。
 - RequestBody - 请求正文。
 - ResponseBody - 响应正文。
 
@@ -235,21 +239,31 @@ func pathHandler(w http.ResponseWriter, r *http.Request) {
 
 ### 017. 404页面(Not Found Page)
 
-设置 404 页面有两种方式
+设置 404 页面有两种方式：
 
-第一种是设置响应头状态码为404，显示页面信息。
+第一种是将响应头中的状态码设置为404，以显示页面信息。
 ```go
 w.WriteHeader(http.StatusNotFound)
 fmt.Fprint(w, "Page not found")
 ```
 
-第二种是同时设置状态码和页面内容。
+第二种是使用`http.Error`同时设置状态码和页面内容。
 ```go
 http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 ```
 
+常见的状态码有以下几种：
+
+- `200 OK` - 服务请求处理正常。
+- `400 Bad Request` - 请求参数错误。
+- `401 Unauthorized` - 未授权，常用于表示用于未登录等。
+- `404 Not Found` - 当访问的页面不存在时使用。
+- `409 Conflict` - 当前请求与其他请求发生了冲突。
+- `500 Inter Server Error` - 一般用于表示服务端处理时发生了异常或者内部故障等。
+
 ### 018. http.Handler类型(The http.Handler Type)
 
+我们可以定义一个结构体并添加一个 `ServeHTTP` 方法，来实现自定义路由处理器。
 定义Router并实现ServeHTTP
 ```go
 type Router struct{}
@@ -266,7 +280,7 @@ func (router Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-注册Router
+将自定义的路由处理器注册至HTTP服务中。
 ```go
 func main() {
 	var router Router
@@ -278,6 +292,17 @@ func main() {
 
 将函数转换为 `http.HandlerFunc`
 ```go
+func pathHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.URL.Path {
+	case "/":
+		homeHandler(w, r)
+	case "/contact":
+		contactHandler(w, r)
+	default:
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+	}
+}
+
 func main() {
 	http.ListenAndServe(":3000", http.HandlerFunc(pathHandler))
 }
@@ -299,7 +324,6 @@ func main() {
 ```
 GET /galleries
 POST /galleries
-
 GET /galleries/:id
 GET /galleries/:id/edit
 DELETE /galleries/:id
@@ -328,6 +352,7 @@ git commit -m "添加提交内容"
 ```
 
 切换分支
+
 ```bash
 git checkout casts
 ```
@@ -368,7 +393,6 @@ go mod tidy
 ```
 
 ### 025. 使用Chi(Using Chi)
-
 
 导入`go-chi`包
 ```go
@@ -414,7 +438,7 @@ Chi提供了不少内置中间件。一个是Logger中间件它将跟踪每个�
 
 服务端渲染是由服务端返回html内容。
 
-定义模板
+定义模板中定义 `{{}}` 占位符。
 ```html
 <body>
 	<a href="/account">{{.Email}}</a>
@@ -422,7 +446,7 @@ Chi提供了不少内置中间件。一个是Logger中间件它将跟踪每个�
 </body>
 ```
 
-服务端返回
+服务端返回时将占位符替换。
 ```html
 <body>
 	<a href="/account">grayjunzi@email.com</a>
@@ -470,10 +494,15 @@ function Example() {
 ```go
 type User struct {
 	Name string
+	Age int 
+	Meta UserMeta
+}
+
+type UserMeta struct {
+	Visits int
 }
 
 func main() {
-
 	t, err := template.ParseFiles("hello.gohtml")
 	if err != nil {
 		panic(err)
@@ -481,6 +510,10 @@ func main() {
 
 	user := User{
 		Name: "John Smith",
+		Age: 24,
+		Meta: UserMeta{
+			Visits: 12
+		}
 	}
 
 	err = t.Execute(os.Stdout, user)
@@ -507,7 +540,6 @@ type User struct {
 }
 
 func main() {
-
 	t, err := template.ParseFiles("hello.gohtml")
 	if err != nil {
 		panic(err)
@@ -647,8 +679,9 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
 
 #### 扁平结构(Flat Structure)
 
-所有代码都在一个包中，用文件来分隔代码
-```
+所有代码都在一个包中，用文件夹来分隔代码。
+
+```bash
 myapp/
 	gallery_store.go
 	gallery_handler.go
@@ -670,7 +703,7 @@ Model-View-Controlle(MVC) 是采用这种策略的一种流行的结构。
 - `views` - 渲染一些东西，通常是html。
 - `controller` - 把它连接起来。接受用户输入，将其传递给模型以完成操作，然后将数据传递给视图以呈现事物，通常是处理程序。
 
-```
+```bash
 myapp/
 	controllers/
 		gallery_handler.go
@@ -858,7 +891,7 @@ errors.As(err, &target)
 
 ### 046. 嵌入模板文件(Embedding Templates Files)
 
-创建`fs.go`文件，通过 `//go:embed` 指令将静态资源文件打包至编译后的文件中。
+创建`fs.go`文件，通过 `//go:embed *` 指令将静态资源文件打包至编译后的文件中。
 ```go
 package templates
 
@@ -1174,6 +1207,19 @@ REST端点(endpoints)与资源有关
 | `PUT` | /galleries/:id | 修改一个相册 |
 | `DELETE` | /galleries/:id | 删除一个相册 |
 
+
+REST端点用到的模板：
+```bash
+templates/
+	galleries/
+		show.gohtml	# /galleries/:id
+		list.gohtml # /galleries
+		new.gohtml	# /galleries/new
+		edit.gohtml # /galleries/:id/edit
+```
+
+
+
 ### 058. 用户控制器(Users Controller)
 
 创建Users控制器
@@ -1315,24 +1361,25 @@ docker-compose version
 version: '3.9'
 
 services:
-
+  # postgres 数据库服务
   db:
-    image: postgres
-    restart: always
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=lenslocked
-    ports:
-      - 5432:5432
+    image: postgres 			# postgres 镜像名称
+    restart: always 			# 如果该服务停止运行了，将总是尝试重启。
+    environment:				# 环境变量
+      - POSTGRES_USER=root		# postgres 用户名 
+      - POSTGRES_PASSWORD=root	# postgres 密码
+      - POSTGRES_DB=lenslocked	# postgres 数据库名称
+    ports:						# 端口映射
+      - 5432:5432				# 宿主机端口:容器端口
 
+  # postgres 管理界面服务
   adminer:
-    image: adminer
-    restart: always
-    environment:
-      - ADMINER_DESIGN=dracula
-    ports:
-      - 3333:8080
+    image: adminer				# postgres 管理界面镜像名称
+    restart: always				# 如果该服务停止运行了，将总是尝试重启。
+    environment:				# 环境变量
+      - ADMINER_DESIGN=dracula	# 管理界面的主题
+    ports:						# 端口映射
+      - 3333:8080				# 宿主机端口:容器端口
 ```
 
 执行以下命令，将会根据 `docker-compose.yml` 文件中的配置，拉取并启动两个镜像。
@@ -1362,6 +1409,13 @@ docker exec -it lenslocked-db-1 /usr/bin/psql -U root -d lenslocked
 ```
 
 > `-i` 全称为 `--interactive` 用于以交互模式运行容器，`-t` 全称为 `--tty` 会为容器重新分配一个伪输入终端。
+
+使用以下命令查看所有正在运行的容器：
+```bash
+docker ps
+```
+
+> 如果使用 `docker ps -a` 将会查看所有的容器，无论是否正在运行。
 
 ### 066. 创建SQL表(Creating SQL Tables)
 
@@ -1402,6 +1456,11 @@ CREATE TABLE users (
 | `PRIMARY KEY` | 这个约束类似于UNIOUE和NOT NULL的组合，但它只能在每个表上使用一次，并且它会自动导致为该字段创建索引。这个索引是用来使查找这个字段的记录更快捷。 |
 
 ### 069. 创建用户表(Creating a Users Table)
+
+执行以下命令进入postgresql容器中：
+```bash
+docker exec -it lenslocked-db-1 /usr/bin/psql -U root -d lenslocked
+```
 
 如果`users`表存在则删除该表。
 ```sql
@@ -1489,7 +1548,7 @@ DELETE FROM users WHERE name = 'admin';
 ### 076. 使用Go连接到Postgres(Connecting to Postgres with Go)
 
 安装 `pgx`
-```go
+```shell
 go get github.com/jackc/pgx/v4
 ```
 
@@ -1527,7 +1586,7 @@ import (
 )
 ```
 
-> 导入的作用是为了执行该包下的 `init()` 函数，用于设置一个驱动程序，然后调用SQL寄存器
+> 导入的作用是为了执行该包下的 `init()` 函数，用于设置一个驱动程序，然后调用SQL寄存器。
 
 ### 078. Postgres配置类型(Postgres Config Type)
 
@@ -1619,6 +1678,8 @@ query := fmt.Sprintf(`
 	VALUES ('%s', '%s')
 `, name, email)
 ```
+
+> 例如 name 中的值是用户来恶意输入的，那么执行以上sql将会造成整个表都删除掉。
 
 ### 082. 获取新记录的ID(Acquire a new Record's ID)
 
@@ -2907,25 +2968,29 @@ UPDATE
 SET token_hash = 'xyz-123';
 ```
 
+> `On CONFLICT` 只适用于Postgres数据库。
+
 ## 十六、模式迁移(Schema Migrations)
 
 ### 146. 什么是模式迁移(What are Schema Migrations?)
-
+ 
 迁移分为两部分一部分是增量的添加操作，另一部分是对应的撤销操作。
 
 ### 147. 迁移工具的工作原理(How Migrations Tools Work)
 
 创建迁移文件。
-```
+```bash
 001-create_users.sql
 002-create_sessions.sql
 ```
 
-通过 `up` 或 `down` 来执行迁移操作。
+我们可以通过 `goose` 来实现迁移，通过 `up` 或 `down` 来执行迁移操作。
 ```bash
 goose up
 goose down
 ```
+
+我们可以将迁移命令拆成几个不同的小步骤。
 
 ```sql
 -- +goose Up
@@ -2935,4 +3000,70 @@ CREATE TABLE uses (
 
 -- +goose Down
 DROP TABLE users;
+```
+
+### 148. 安装 goose
+
+安装 `goose`
+
+```bash
+go install github.com/pressly/goose/v3/cmd/goose@latest
+```
+
+查看 `goose` 版本：
+```shell
+goose -version
+```
+
+创建迁移文件夹
+```shell
+mkdir migrations
+```
+
+创建迁移文件
+```shell
+goose create widgets sql
+```
+
+生成好的迁移文件，将会分为 `up`、`down` 两部分。
+
+```sql
+-- +goose Up
+-- +goose StatementBegin
+SELECT 'up SQL query';
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+SELECT 'down SQL query';
+-- +goose StatementEnd
+```
+
+我们可以更改文件内容，并在`up`部分创建widgets表，`down`部分删除widgets表。
+
+```sql
+-- +goose Up
+-- +goose StatementBegin
+CREATE TABLE widgets (
+    id SERIAL PRIMARY KEY,
+    color TEXT
+)
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+DROP TABLE widgets;
+-- +goose StatementEnd
+```
+
+使用 `goose` 连接 postgres 数据库，并查看状态。
+
+```bash
+goose postgres "host=localhost port=5432 user=root password=root dbname=lenslocked sslmode=disable" status
+```
+
+使用 `goose` 执行 `up` 迁移操作。
+
+```bash
+goose postgres "host=localhost port=5432 user=root password=root dbname=lenslocked sslmode=disable" up
 ```
