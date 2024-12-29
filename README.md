@@ -3168,3 +3168,30 @@ func Migrate(db *sql.DB, dir string) error {
 ```bash
 goose postgres "host=localhost port=5432 user=root password=root dbname=lenslocked sslmode=disable" reset
 ```
+
+### 152. 嵌入迁移
+
+在 `migrations` 文件夹中编写 `fs.go` 文件，将迁移文件内置到执行程序中：
+```go
+package migrations
+
+import "embed"
+
+//go:embed *.sql
+var FS embed.FS
+```
+
+编写FS代码：
+
+```go
+func MigrateFS(db *sql.DB, migrationsFS fs.FS, dir string) error {
+	if dir == "" {
+		dir = "."
+	}
+	goose.SetBaseFS(migrationsFS)
+	defer func() {
+		goose.SetBaseFS(nil)
+	}()
+	return Migrate(db, dir)
+}
+```
