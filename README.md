@@ -3120,3 +3120,13 @@ DROP TABLE sessions;
 ```bash
 goose postgres "host=localhost port=5432 user=root password=root dbname=lenslocked sslmode=disable" up
 ```
+
+### 150. 模式版本问题
+
+开发一个项目时，通常都是一个团队来协作完成的。那么在项目的开发过程中，可能会存在创建迁移脚本的人员并不是固定的，那么在使用 `git` 一类的源代码管理工具时，有可能会出现，A和B两个开发人员提交迁移脚本的时间并不同步，那么就会产生开发环境与生产环境中脚本执行的顺序是不相同的，则会存在隐性的问题。为了解决以上提到的问题，`goose` 提供了一个功能用于将迁移脚本变成固定的版本。
+
+
+使用以下命令会将迁移脚本重命名为类似于 `00001_users.sql` 的名称：
+```bash
+goose fix
+```
