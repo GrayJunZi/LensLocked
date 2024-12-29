@@ -3171,7 +3171,7 @@ goose postgres "host=localhost port=5432 user=root password=root dbname=lenslock
 
 ### 152. 嵌入迁移
 
-在 `migrations` 文件夹中编写 `fs.go` 文件，将迁移文件内置到执行程序中：
+在 `migrations` 文件夹中编写 `fs.go` 文件，将迁移文件内置到二进制可执行文件中：
 ```go
 package migrations
 
@@ -3193,5 +3193,37 @@ func MigrateFS(db *sql.DB, migrationsFS fs.FS, dir string) error {
 		goose.SetBaseFS(nil)
 	}()
 	return Migrate(db, dir)
+}
+```
+
+### 153. Go迁移文件
+
+使用 `goose` 命令创建 go 迁移文件。
+```bash
+goose create widget go
+```
+
+编写go迁移代码：
+```go
+package migrations
+
+import (
+	"context"
+	"database/sql"
+	"github.com/pressly/goose/v3"
+)
+
+func init() {
+	goose.AddMigrationContext(upWidget, downWidget)
+}
+
+func upWidget(ctx context.Context, tx *sql.Tx) error {
+	// This code is executed when the migration is applied.
+	return nil
+}
+
+func downWidget(ctx context.Context, tx *sql.Tx) error {
+	// This code is executed when the migration is rolled back.
+	return nil
 }
 ```
