@@ -3415,3 +3415,46 @@ csrfMiddleware := csrf.Protect([]byte(csrfKey), csrf.Secure(false))
 fmt.Println("Starting the server on :3000 ...")
 http.ListenAndServe(":3000", csrfMiddleware(userMiddleware.SetUser(r)))
 ```
+
+### 161. 通过中间件要求用户登录
+
+添加需要用户登录的中间件，用于从上下文中获取用户信息，如果用户不存在则跳转到登录页。
+
+```go
+func (m UserMiddleware) RequireUser(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		user := context.User(r.Context())
+		if user == nil {
+			http.Redirect(w, r, "/signin", http.StatusFound)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+```
+
+可以使用`Use()`方法设置中间件，添加的顺序就是实际执行的顺序。
+
+```go
+userMiddleware := controllers.UserMiddleware{
+	SesionService: &sessionService,
+}
+
+csrfKey := "the lenslocked csrf key"
+csrfMiddleware := csrf.Protect([]byte(csrfKey), csrf.Secure(false))
+
+// 设置路由
+r := chi.NewRouter()
+r.Use(csrfMiddleware)
+r.Use(userMiddleware.SetUser)
+```
+
+我们可以在具体某个路由上添加需要用户登录的中间件。
+
+```go
+r.Route("/users/me", func(r chi.Router) {
+	r.Use(userMiddleware.RequireUser)
+	r.Get("/", usersController.CurrentUser)
+})
+```
