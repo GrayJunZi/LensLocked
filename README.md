@@ -3687,3 +3687,28 @@ if err != nil {
 	panic(err)
 }
 ```
+
+### 168. 构建邮件服务
+
+定义配置结构与邮件服务
+
+```go
+type SMTPConfig struct {
+	Host     string
+	Port     int
+	Username string
+	Password string
+}
+
+type EmailService struct {
+	DefaultSender string
+
+	dialer *mail.Dialer
+}
+
+func NewEmailService(config SMTPConfig) *EmailService {
+	return &EmailService{
+		dialer: mail.NewDialer(config.Host, config.Port, config.Username, config.Password),
+	}
+}
+```
