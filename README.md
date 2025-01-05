@@ -3927,3 +3927,41 @@ func (u Users) ProcessForgotPassword(w http.ResponseWriter, r *http.Request) {
 ### 175. 同步邮件
 
 我们我们最好是同步等待邮件发送成功之后，再去跳转页面提示用户去邮箱里查看我们发送的邮件。
+
+### 176. 忘记密码页面
+
+```html
+{{template "header" .}}
+
+<div class="py-12 flex justify-center">
+    <div class="px-8 py-8 bg-white rounded shadow">
+        <h1 class="pt-4 pb-8 text-center text-3xl font-bold text-gray-900">
+            忘记密码？
+        </h1>
+        <p class="text-sm text-gray-600 pb-4">
+            没问题，输入你的邮箱地址，我们会给你发送一个重置密码的链接。
+        </p>
+        <form action="/forgot-password" method="post">
+            <div class="hidden">
+                {{ csrfField }}
+            </div>
+            <div class="py-2">
+                <label for="email" class="text-sm font-semibold text-gray-800">邮箱</label>
+                <input name="email" id="email" type="email" placeholder="邮箱地址" required autocomplete="email"
+                    value="{{.Email}}" autofocus
+                    class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-800 rounded" />
+            </div>
+            <div class="py-4">
+                <button
+                    class="w-full py-4 px-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-bold text-lg">重置密码</button>
+            </div>
+            <div class="py-2 w-full flex justify-between">
+                <p class="text-xs text-gray-500">还没有账号？<a href="/signup" class="underline">注册</a></p>
+                <p class="text-xs text-gray-500"><a href="/signin" class="underline">登录</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+{{template "footer" .}}
+```

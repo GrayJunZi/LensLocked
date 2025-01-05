@@ -48,6 +48,10 @@ func main() {
 		templates.FS,
 		"signin.gohtml", "tailwind.gohtml",
 	))
+	usersController.Templates.ForgotPassword = views.Must(views.ParseFS(
+		templates.FS,
+		"forgot-password.gohtml", "tailwind.gohtml",
+	))
 
 	// 设置中间件
 	userMiddleware := controllers.UserMiddleware{
@@ -79,6 +83,8 @@ func main() {
 	r.Get("/signin", usersController.SignIn)
 	r.Post("/signin", usersController.ProcessSignIn)
 	r.Post("/signout", usersController.ProcessSignOut)
+	r.Get("/forgot-password", usersController.ForgotPassword)
+	r.Post("/forgot-password", usersController.ProcessForgotPassword)
 
 	// r.Get("/users/me", usersController.CurrentUser)
 	r.Route("/users/me", func(r chi.Router) {
