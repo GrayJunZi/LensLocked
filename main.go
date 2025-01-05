@@ -15,6 +15,7 @@ import (
 
 func main() {
 	r := chi.NewRouter()
+
 	r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(
 		templates.FS,
 		"home.gohtml", "tailwind.gohtml",
@@ -71,9 +72,13 @@ func main() {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 	})
 
+	userMiddleware := controllers.UserMiddleware{
+		SesionService: &sessionService,
+	}
+
 	csrfKey := "the lenslocked csrf key"
 	csrfMiddleware := csrf.Protect([]byte(csrfKey), csrf.Secure(false))
 
 	fmt.Println("Starting the server on :3000 ...")
-	http.ListenAndServe(":3000", csrfMiddleware(r))
+	http.ListenAndServe(":3000", csrfMiddleware(userMiddleware.SetUser(r)))
 }

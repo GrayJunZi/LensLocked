@@ -3375,3 +3375,43 @@ func (u Users) CurrentUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Current user: %s\n", user.Email)
 }
 ```
+
+### 160. 通过中间件设置用户
+
+添加一个用户中间件，用于从cookie中读取用户token，并将用户信息存储至上下文中。
+
+```go
+func (m UserMiddleware) SetUser(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		token, err := readCookie(r, CookieSession)
+		if err != nil {
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		user, err := m.SesionService.User(token)
+		if err != nil {
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		ctx := context.WithUser(r.Context(), user)
+		r = r.WithContext(ctx)
+		next.ServeHTTP(w, r)
+	})
+}
+```
+
+将用户中间件加入到路由中，这样请求进来是就会经过用户中间件。
+
+```go
+userMiddleware := controllers.UserMiddleware{
+	SesionService: &sessionService,
+}
+
+csrfKey := "the lenslocked csrf key"
+csrfMiddleware := csrf.Protect([]byte(csrfKey), csrf.Secure(false))
+
+fmt.Println("Starting the server on :3000 ...")
+http.ListenAndServe(":3000", csrfMiddleware(userMiddleware.SetUser(r)))
+```
