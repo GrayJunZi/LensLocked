@@ -3763,3 +3763,25 @@ func (e *EmailService) setFrom(msg *mail.Message, email Email) {
 	msg.SetHeader("From", from)
 }
 ```
+
+### 170. 忘记密码邮件
+
+添加忘记密码方法
+
+```go
+func (e *EmailService) ForgotPassword(to, resetURL string) error {
+	email := Email{
+		Subject:   "Reset your password",
+		To:        to,
+		PlainText: "To reset your password, please visit the following link:" + resetURL,
+		HTML:      `<p>To reset your password, pleanse visit the following link: <a href="` + resetURL + `">` + resetURL + `</a></p>`,
+	}
+
+	err := e.Send(email)
+	if err != nil {
+		return fmt.Errorf("forgot password email: %w", err)
+	}
+
+	return nil
+}
+```
