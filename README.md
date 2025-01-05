@@ -3886,5 +3886,40 @@ func (p *PasswordResetService) Create(email string) (*PasswordReset, error) {
 func (p *PasswordResetService) Consume(token string) (*User, error) {
 	return nil, fmt.Errorf("")
 }
+```
 
+### 174. 忘记密码请求处理
+
+```go
+func (u Users) ForgotPassword(w http.ResponseWriter, r *http.Request) {
+	var data struct {
+		Email string
+	}
+	data.Email = r.FormValue("email")
+	u.Templates.ForgotPassword.Execute(w, r, data)
+}
+
+func (u Users) ProcessForgotPassword(w http.ResponseWriter, r *http.Request) {
+	var data struct {
+		Email string
+	}
+	data.Email = r.FormValue("email")
+	passwordReset, err := u.PasswordResetService.Create(data.Email)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Something went wrong.", http.StatusInternalServerError)
+		return
+	}
+
+	vals := url.Values{
+		"token": {passwordReset.Token},
+	}
+	resetURL := "http://localhost:3000/reset-password?" + vals.Encode()
+	err = u.EmailService.ForgotPassword(data.Email, resetURL)
+	if err != nil {
+		return
+	}
+
+	u.Templates.CheckYourEmail.Execute(w, r, data)
+}
 ```
