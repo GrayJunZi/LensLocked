@@ -2,21 +2,32 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
+	"strconv"
 
 	"github.com/go-mail/mail/v2"
-)
-
-const (
-	host     = "smtp-mail.outlook.com"
-	port     = 587
-	username = "grayjunzi@outlook.com"
-	password = "vyrjktlqencfjheor"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	from := "grayjunzi@outlook.com"
-	to := "grayjunzi@163.com"
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	host := os.Getenv("SMTP_HOST")
+	portStr := os.Getenv("SMTP_PORT")
+	port, err := strconv.Atoi(portStr)
+	if err != nil {
+		panic(err)
+	}
+
+	username := os.Getenv("SMTP_USERNAME")
+	password := os.Getenv("SMTP_PASSWORD")
+
+	from := "test@outlook.com"
+	to := "test@163.com"
 	subject := "This is a test email"
 
 	plaintext := "This is the body of the email"
@@ -32,16 +43,7 @@ func main() {
 
 	dialer := mail.NewDialer(host, port, username, password)
 
-	/*
-		sender, err := dialer.Dial()
-		if err != nil {
-			panic(err)
-		}
-		defer sender.Close()
-		sender.Send(from, []string{to}, msg)
-	*/
-
-	err := dialer.DialAndSend(msg)
+	err = dialer.DialAndSend(msg)
 	if err != nil {
 		panic(err)
 	}

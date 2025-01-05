@@ -3785,3 +3785,34 @@ func (e *EmailService) ForgotPassword(to, resetURL string) error {
 	return nil
 }
 ```
+
+### 171. 环境变量
+
+安装 `godotenv`
+```bash
+go get github.com/joho/godotenv
+```
+
+创建 `.env` 文件并编写环境变量值。
+
+```
+SMTP_HOST=smtp-mail.outlook.com
+SMTP_PORT=587
+SMTP_USERNAME=test
+SMTP_PASSWORD=test
+```
+
+加载 `.env` 文件。
+
+```go
+err := godotenv.Load()
+if err != nil {
+	log.Fatal("Error loading .env file")
+}
+```
+
+读取环境变量值
+
+```go
+host := os.Getenv("SMTP_HOST")
+```
