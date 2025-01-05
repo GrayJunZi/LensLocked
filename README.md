@@ -3816,3 +3816,36 @@ if err != nil {
 ```go
 host := os.Getenv("SMTP_HOST")
 ```
+
+### 172. 密码重置数据库迁移
+
+创建迁移文件
+
+```bash
+goose create password_reset sql
+```
+
+使用 `fix` 命令修改迁移文件名称。
+
+```bash
+goose fix
+```
+
+编写迁移脚本
+
+```sql
+-- +goose Up
+-- +goose StatementBegin
+CREATE TABLE password_resets (
+    id SERIAL PRIMARY KEY,
+    user_id INT UNIQUE REFERENCES users (id) ON DELETE CASCADE,
+    token_hash TEXT UNIQUE NOT NULL,
+    expires_at TIMESTAMPTZ NOT NULL 
+);
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+DROP TABLE password_resets;
+-- +goose StatementEnd
+```
