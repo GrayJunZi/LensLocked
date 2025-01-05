@@ -3648,3 +3648,42 @@ Content-Type: text/html; charset=UTF-8
 <h1>Hello, World!</h1>
 --468187ee85a0c8d2c12ceffb2ea4878d4fe83caf8fb7b0d42d9a5ab7523f--
 ```
+
+
+### 167. 使用SMTP发送邮件
+
+可以调用`smtp`的`Send()`方法来组装要发送的邮件信息。
+
+```go
+dialer := mail.NewDialer(host, port, username, password)
+sender, err := dialer.Dial()
+if err != nil {
+	panic(err)
+}
+defer sender.Close()
+sender.Send(from, []string{to}, msg)
+```
+
+或者使用 `mail.Message` 来发送邮件。
+
+```go
+from := "grayjunzi@outlook.com"
+to := "grayjunzi@163.com"
+subject := "This is a test email"
+
+plaintext := "This is the body of the email"
+html := `<h1>Hello, World!</h1>`
+
+msg := mail.NewMessage()
+msg.SetHeader("From", from)
+msg.SetHeader("To", to)
+msg.SetHeader("Subject", subject)
+msg.SetBody("text/plain", plaintext)
+msg.AddAlternative("text/html", html)
+msg.WriteTo(os.Stdout)
+dialer := mail.NewDialer(host, port, username, password)
+err := dialer.DialAndSend(msg)
+if err != nil {
+	panic(err)
+}
+```
