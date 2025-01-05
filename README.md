@@ -3539,6 +3539,8 @@ func ParseFS(fs fs.FS, patterns ...string) (Template, error) {
 
 请求作用域变量与普通的变量的区别在于，请求作用域的值在每个请求中都是互相独立的，而一般变量则在整个应用中都是相同的。
 
+## 十八、为用户发送邮件
+
 ### 164. 密码重置流程概述
 
 #### 业务流程
@@ -3578,3 +3580,12 @@ func ParseFS(fs fs.FS, patterns ...string) (Template, error) {
 主入口：
 	1. 设置路由
 	2. 设置模板处理
+
+### 165. SMTP服务
+
+可以使用一些云平台来发送邮件。
+
+1. Mailtrap
+2. SendGrid
+3. SendInBlue
+4. MailGun
