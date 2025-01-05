@@ -3923,3 +3923,7 @@ func (u Users) ProcessForgotPassword(w http.ResponseWriter, r *http.Request) {
 	u.Templates.CheckYourEmail.Execute(w, r, data)
 }
 ```
+
+### 175. 同步邮件
+
+我们我们最好是同步等待邮件发送成功之后，再去跳转页面提示用户去邮箱里查看我们发送的邮件。
