@@ -3534,3 +3534,8 @@ func ParseFS(fs fs.FS, patterns ...string) (Template, error) {
 	<a class="px-4 py-2 bg-blue-700 hover:bg-blue-600 rounded" href="/signup">Sign up</a>
 {{end}}
 ```
+
+### 163. 请求作用域值
+
+请求作用域变量与普通的变量的区别在于，请求作用域的值在每个请求中都是互相独立的，而一般变量则在整个应用中都是相同的。
+
