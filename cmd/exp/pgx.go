@@ -20,7 +20,7 @@ func (config PostgresConfig) String() string {
 	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", config.Host, config.Port, config.User, config.Password, config.Database, config.SSLMode)
 }
 
-func main() {
+func main_pgx() {
 
 	config := PostgresConfig{
 		Host:     "localhost",

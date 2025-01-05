@@ -3589,3 +3589,62 @@ func ParseFS(fs fs.FS, patterns ...string) (Template, error) {
 2. SendGrid
 3. SendInBlue
 4. MailGun
+
+### 166. 使用SMTP构建邮件服务
+
+安装 `go-mail`
+```bash
+go get github.com/go-mail/mail/v2
+```
+
+构建邮件内容
+```go
+package main
+
+import (
+	"os"
+
+	"github.com/go-mail/mail/v2"
+)
+
+func main() {
+	from := "admin@email.com"
+	to := "test@email.com"
+	subject := "This is a test email"
+
+	plaintext := "This is the body of the email"
+	html := `<h1>Hello, World!</h1>`
+
+	msg := mail.NewMessage()
+	msg.SetHeader("From", from)
+	msg.SetHeader("To", to)
+	msg.SetHeader("Subject", subject)
+	msg.SetBody("text/plain", plaintext)
+	msg.AddAlternative("text/html", html)
+	msg.WriteTo(os.Stdout)
+}
+```
+
+邮件发送的内容如下：
+
+```
+MIME-Version: 1.0
+Date: Sun, 05 Jan 2025 11:55:36 +0800
+From: admin@email.com
+To: test@email.com
+Subject: This is a test email
+Content-Type: multipart/alternative;
+ boundary=468187ee85a0c8d2c12ceffb2ea4878d4fe83caf8fb7b0d42d9a5ab7523f
+
+--468187ee85a0c8d2c12ceffb2ea4878d4fe83caf8fb7b0d42d9a5ab7523f
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+
+This is the body of the email
+--468187ee85a0c8d2c12ceffb2ea4878d4fe83caf8fb7b0d42d9a5ab7523f
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<h1>Hello, World!</h1>
+--468187ee85a0c8d2c12ceffb2ea4878d4fe83caf8fb7b0d42d9a5ab7523f--
+```
