@@ -3458,3 +3458,79 @@ r.Route("/users/me", func(r chi.Router) {
 	r.Get("/", usersController.CurrentUser)
 })
 ```
+
+### 162. 在模板中访问当前用户
+
+在 `template.go` 文件中的 `Execute` 函数里增加 `template.FuncMap`，用于从上下文中获取用户信息。
+
+```go
+func (t Template) Execute(w http.ResponseWriter, r *http.Request, data interface{}) {
+	tpl, err := t.htmlTpl.Clone()
+	if err != nil {
+		log.Printf("cloing template: %v", err)
+		http.Error(w, "There was an error rendering the page.", http.StatusInternalServerError)
+		return
+	}
+	tpl = tpl.Funcs(
+		template.FuncMap{
+			"csrfField": func() template.HTML {
+				return csrf.TemplateField(r)
+			},
+			"currentUser": func() *models.User {
+				return context.User(r.Context())
+			},
+		},
+	)
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	var buf bytes.Buffer
+	err = tpl.Execute(&buf, data)
+	if err != nil {
+		log.Printf("执行模板: %v", err)
+		http.Error(w, "解析模板出错.", http.StatusInternalServerError)
+		return
+	}
+	io.Copy(w, &buf)
+}
+```
+
+在 `template.go` 文件中的 `Parse` 函数里增加 `template.FuncMap`，如果用户解析失败则会返回错误信息。
+
+```go
+func ParseFS(fs fs.FS, patterns ...string) (Template, error) {
+	tpl := template.New(patterns[0])
+	tpl = tpl.Funcs(
+		template.FuncMap{
+			"csrfField": func() (template.HTML, error) {
+				return "", fmt.Errorf("csrfField not implemented")
+			},
+			"currentUser": func() (template.HTML, error) {
+				return "", fmt.Errorf("currentUser not implemented")
+			},
+		},
+	)
+	tpl, err := tpl.ParseFS(fs, patterns...)
+	if err != nil {
+		return Template{}, fmt.Errorf("parsing template: %w", err)
+	}
+
+	return Template{
+		htmlTpl: tpl,
+	}, nil
+}
+```
+
+在模板中使用 `currentUser`。
+
+```html
+{{if currentUser}}
+	<form action="/signout" method="post" class="inline pr-4">
+		<div class="hidden">
+			{{ csrfField }}
+		</div>
+		<button type="submit">Sign out</button>
+	</form>
+{{else}}
+	<a class="pr-4" href="/signin">Sign in</a>
+	<a class="px-4 py-2 bg-blue-700 hover:bg-blue-600 rounded" href="/signup">Sign up</a>
+{{end}}
+```
