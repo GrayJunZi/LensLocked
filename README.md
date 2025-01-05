@@ -3712,3 +3712,54 @@ func NewEmailService(config SMTPConfig) *EmailService {
 	}
 }
 ```
+
+### 169. 邮件服务发送
+
+封装 `Send` 方法。
+
+```go
+type Email struct {
+	From      string
+	To        string
+	Subject   string
+	PlainText string
+	HTML      string
+}
+
+func (e *EmailService) Send(email Email) error {
+	msg := mail.NewMessage()
+
+	e.setFrom(msg, email)
+
+	msg.SetHeader("From", email.From)
+	msg.SetHeader("To", email.To)
+	msg.SetHeader("Subject", email.Subject)
+
+	if email.PlainText != "" {
+		msg.SetBody("text/plain", email.PlainText)
+	}
+
+	if email.HTML != "" {
+		msg.AddAlternative("text/html", email.HTML)
+	}
+
+	if err := e.dialer.DialAndSend(msg); err != nil {
+		return fmt.Errorf("send: %s", err)
+	}
+
+	return nil
+}
+
+func (e *EmailService) setFrom(msg *mail.Message, email Email) {
+	var from string
+	switch {
+	case email.From != "":
+		from = email.From
+	case e.DefaultSender != "":
+		from = e.DefaultSender
+	default:
+		from = DefaultSender
+	}
+	msg.SetHeader("From", from)
+}
+```

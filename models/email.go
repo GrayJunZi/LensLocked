@@ -1,10 +1,22 @@
 package models
 
-import "github.com/go-mail/mail/v2"
+import (
+	"fmt"
+
+	"github.com/go-mail/mail/v2"
+)
 
 const (
 	DefaultSender = "support@lenslocked.com"
 )
+
+type Email struct {
+	From      string
+	To        string
+	Subject   string
+	PlainText string
+	HTML      string
+}
 
 type SMTPConfig struct {
 	Host     string
@@ -23,4 +35,41 @@ func NewEmailService(config SMTPConfig) *EmailService {
 	return &EmailService{
 		dialer: mail.NewDialer(config.Host, config.Port, config.Username, config.Password),
 	}
+}
+
+func (e *EmailService) Send(email Email) error {
+	msg := mail.NewMessage()
+
+	e.setFrom(msg, email)
+
+	msg.SetHeader("From", email.From)
+	msg.SetHeader("To", email.To)
+	msg.SetHeader("Subject", email.Subject)
+
+	if email.PlainText != "" {
+		msg.SetBody("text/plain", email.PlainText)
+	}
+
+	if email.HTML != "" {
+		msg.AddAlternative("text/html", email.HTML)
+	}
+
+	if err := e.dialer.DialAndSend(msg); err != nil {
+		return fmt.Errorf("send: %s", err)
+	}
+
+	return nil
+}
+
+func (e *EmailService) setFrom(msg *mail.Message, email Email) {
+	var from string
+	switch {
+	case email.From != "":
+		from = email.From
+	case e.DefaultSender != "":
+		from = e.DefaultSender
+	default:
+		from = DefaultSender
+	}
+	msg.SetHeader("From", from)
 }
