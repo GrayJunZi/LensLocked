@@ -3965,3 +3965,65 @@ func (u Users) ProcessForgotPassword(w http.ResponseWriter, r *http.Request) {
 
 {{template "footer" .}}
 ```
+
+### 177. 使用环境变量初始化服务
+
+定义结构体，将配置相关都放在同一个结构体中。
+
+```go
+type config struct {
+	PSQL models.PostgresConfig
+	SMTP models.SMTPConfig
+	CSRF struct {
+		Key    string
+		Secure bool
+	}
+	Server struct {
+		Address string
+	}
+}
+```
+
+添加读取配置方法。
+
+```go
+func loadEnvConfig() (config, error) {
+	var cfg config
+	err := godotenv.Load()
+	if err != nil {
+		return cfg, err
+	}
+
+	cfg.PSQL = models.DefaultPostgresConfig()
+
+	smtpPort := os.Getenv("SMTP_PORT")
+	port, err := strconv.Atoi(smtpPort)
+	if err != nil {
+		return cfg, err
+	}
+	cfg.SMTP = models.SMTPConfig{
+		Host:     os.Getenv("SMTP_HOST"),
+		Port:     port,
+		Username: os.Getenv("SMTP_USERNAME"),
+		Password: os.Getenv("SMTP_PASSWORD"),
+	}
+
+	cfg.CSRF.Key = os.Getenv("CSRF_KEY")
+	cfg.CSRF.Secure = false
+
+	cfg.Server.Address = os.Getenv("SERVER_ADDRESS")
+
+	return cfg, nil
+}
+```
+
+在 `main.go` 函数中调用加载配置方法。
+
+```go
+func main() {
+	cfg, err := loadEnvConfig()
+	if err != nil {
+		panic(err)
+	}
+}
+```
